@@ -24,6 +24,10 @@ public class SpriteController {
     protected float heightEachPlayer;
     private float stateTime; // tracks elapsed time for the animation
 
+    // move
+    //public float speed;
+    //public static boolean left;
+
     // passing al the parameters of the player
     public SpriteController(Vector2 position, int widthEachPlayer, int heightEachPlayer, String player2SpritesRelativePath){
         this.position = position;
@@ -31,17 +35,24 @@ public class SpriteController {
         this.heightEachPlayer = heightEachPlayer * LevelController.UNIT_SCALE;
         this.spritesheet = new Spritesheet(player2SpritesRelativePath, widthEachPlayer, heightEachPlayer);
         this.animations = new HashMap<String, Animation>();
-        stateTime =0f;
+        this.stateTime =0f;
+    }
+    public void setSpriteAnimations(String animationName, int startFrame, int lastFrame, float animationSpeed){
+        this.animations.put(animationName, spritesheet.createAnimation(startFrame, lastFrame, animationSpeed));
+
+    }
+    public void setCurrentAnimation(String currentAnimation){
+        this.currentAnimation = currentAnimation;
     }
 
     public void draw(Batch batch){
-        TextureRegion currentFrame = (TextureRegion) animations.get(currentAnimation).getKeyFrame(stateTime, true);
+        TextureRegion currentFrame = (TextureRegion) animations.get(this.currentAnimation).getKeyFrame(this.stateTime, true);
         batch.draw(currentFrame, this.position.x, this.position.y, this.widthEachPlayer, this.heightEachPlayer);
     }
 
     public void update(float deltaTime){
-        stateTime += deltaTime;
-        // change player position
+        this.stateTime += deltaTime;
+        // change sprite position
     }
 
 }

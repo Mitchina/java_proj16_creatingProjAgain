@@ -30,10 +30,20 @@ public class GameScreen extends ScreenAdapter {
 
         // capture inputs - then, move camera
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            camera.position.x -=3;
+            camera.position.x -=3f;
+            PlayerController.player.position.x -= .05f;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            camera.position.x +=3;
+            camera.position.x +=3f;
+            PlayerController.player.position.x += .05f;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+            camera.position.y +=3f;
+            PlayerController.player.position.y += .05f;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+            camera.position.y -=3f;
+            PlayerController.player.position.y -= .05f;
         }
     }
 

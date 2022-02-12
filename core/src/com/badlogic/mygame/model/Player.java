@@ -23,7 +23,16 @@ public class Player extends SpriteController {
     // passing al the parameters of the player
     public Player(Vector2 position, int widthEachPlayer, int heightEachPlayer, String player2SpritesRelativePath){
         super(position, widthEachPlayer, heightEachPlayer, player2SpritesRelativePath);
-
+        setSpriteAnimations("idleFront",4, 6, 0.25f);
+        setSpriteAnimations("idleLeft",7, 9, 0.25f);
+        setSpriteAnimations("idleBack",10, 11, 0.25f);
+        setSpriteAnimations("idleRight",12, 14, 0.25f);
+        setSpriteAnimations("walkFront",15, 19, 0.25f);
+        setSpriteAnimations("walkLeft",20, 24, 0.25f);
+        setSpriteAnimations("walkRight",25, 29, 0.25f);
+        setSpriteAnimations("walkBack",30, 34, 0.25f);
+        setCurrentAnimation("idleFront");
+        /*
         animations = new HashMap<>();
         animations.put("idleFront", spritesheet.createAnimation(4, 6, 0.25f));
         animations.put("idleLeft", spritesheet.createAnimation(7, 9, 0.25f));
@@ -34,7 +43,15 @@ public class Player extends SpriteController {
         animations.put("walkRight", spritesheet.createAnimation(25, 29, 0.25f));
         animations.put("walkBack", spritesheet.createAnimation(30, 34, 0.25f));
         currentAnimation = "idleFront";
+        */
         createBox2d();
+    }
+    public void setSpriteAnimations(String animationName, int startFrame, int lastFrame, float animationSpeed){
+        super.setSpriteAnimations(animationName, startFrame, lastFrame, animationSpeed);
+    }
+
+    public void setCurrentAnimation(String currentAnimation){
+        super.setCurrentAnimation(currentAnimation);
     }
 
     public void draw(Batch batch){

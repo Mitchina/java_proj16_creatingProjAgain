@@ -12,6 +12,5 @@ public class PlayerController {
     }
     public static void update(float deltaTime){
         player.update(deltaTime);
-
     }
 }

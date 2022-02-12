@@ -13,7 +13,9 @@ public class Spritesheet {
     public Animation<TextureRegion> flippedAnimation;
 
     public Spritesheet(String pathToFile, int eachSpriteWidth, int eachSpriteHeight){
-        spriteSheet = new Texture(new FileHandle(pathToFile));
+        //img = new Texture("badlogic.jpg"); /example
+        //spriteSheet = new Texture(new FileHandle(pathToFile)); //before for absolute path
+        spriteSheet = new Texture(pathToFile); //maybe without FileHandle for relative path
 
         TextureRegion[][] spriteSheetFrames = TextureRegion.split(spriteSheet, eachSpriteWidth, eachSpriteHeight);
 
@@ -24,9 +26,7 @@ public class Spritesheet {
                 counter++;
             }
         }
-
         spriteFrames = new TextureRegion[counter];
-
         //reset counter
         counter=0;
         for (TextureRegion[] row:spriteSheetFrames){
@@ -35,19 +35,24 @@ public class Spritesheet {
             }
         }
     }
-
     // returning the animation to the player
     public Animation createAnimation(int startFrame, int lastFrame, float animationSpeed){
+        //System.out.println("-------------");
+        //System.out.println("startFrame: " + startFrame);
+        //System.out.println("lastFrame: " + lastFrame);
         // tell the size of its array
         int counter = (lastFrame + 1) - startFrame;
+        //System.out.println("array size: " + counter);
 
         TextureRegion[] animationFrames = new TextureRegion[counter];
 
         // start from lastFrame and decrement it
-        for(int index=lastFrame; index>=startFrame; index++){
+        for(int index=lastFrame; index>=startFrame; index--){ //6 >=4
+            //System.out.println("array size: " + counter);
             animationFrames[--counter] = spriteFrames[index];
+            //System.out.println("index: " + index);
         }
-
+        //System.out.println("-------------");
         animation = new Animation<TextureRegion>(animationSpeed, animationFrames);
         return animation;
     }
