@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.mygame.controller.LevelController;
 import com.badlogic.mygame.controller.PlayerController;
 
@@ -17,7 +16,6 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(OrthographicCamera camera){
         this.camera = camera;
         LevelController.initializeController(this);
-        // player controller init goes here:
         PlayerController.initializeController();
     }
 
@@ -44,7 +42,6 @@ public class GameScreen extends ScreenAdapter {
         this.update();
 
         LevelController.update(delta, this.camera);
-        // here I'll need to update the player too
         PlayerController.update(delta);
         LevelController.draw(this.camera);
     }

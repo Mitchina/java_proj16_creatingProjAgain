@@ -2,21 +2,18 @@ package com.badlogic.mygame.model;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.mygame.controller.LevelController;
-import com.badlogic.mygame.controller.PlayerController;
 import com.badlogic.mygame.controller.SpriteController;
 
 import java.util.HashMap;
 
 public class Player extends SpriteController {
-    private HashMap<String, Animation> animations;
-    public static Batch batch;
+    //private HashMap<String, Animation> animations;
+    //public static Batch batch;
 
     // passing al the parameters of the player
     public Player(Vector2 position, int widthEachPlayer, int heightEachPlayer, String player2SpritesRelativePath, float spriteVelocity){
@@ -37,11 +34,6 @@ public class Player extends SpriteController {
         super.setMovDir(movDir);
     }
 
-    /*
-    public void setSpriteVelocity(float spriteVelocity){
-        super.setSpriteVelocity(spriteVelocity);
-    }*/
-
     public void setSpriteAnimations(String animationName, int startFrame, int lastFrame, float animationSpeed){
         super.setSpriteAnimations(animationName, startFrame, lastFrame, animationSpeed);
     }
@@ -56,40 +48,36 @@ public class Player extends SpriteController {
 
     public void update(float deltaTime){
         super.update(deltaTime);
-        final double SPEEDTRANSLOCATION = 0.051; // numbers +/- as 0.03535534 and 0.05 = walking // 0.05656854 and 0.08 = running
+        final double SPEEDTRANSLOC = 0.051; // numbers +/- as 0.03535534 and 0.05 = walking // 0.05656854 and 0.08 = running
 
         if(movementAngle== 0 && movDir.x == 0 && movDir.y== 0){
             System.out.println("I'm stand................");
             setCurrentAnimation("idleFront");
         }
         if(movementAngle== 0 && movDir.x != 0){
-            //System.out.println("I'm going Right................");
             setCurrentAnimation("walkRight");
-            if(movDir.x > SPEEDTRANSLOCATION){
+            if(movDir.x > SPEEDTRANSLOC){
                 System.out.println("I'm RUNNING Right................");
             }
             else{System.out.println("I'm WALKING Right................");}
         }
         if(movementAngle== 180 && movDir.x != 0){
-            //System.out.println("I'm going Left................");
             setCurrentAnimation("walkLeft");
-            if(movDir.x < -SPEEDTRANSLOCATION){
+            if(movDir.x < -SPEEDTRANSLOC){
                 System.out.println("I'm RUNNING Left................");
             }
             else{System.out.println("I'm WALKING Left................");}
         }
         if(movementAngle== 270 && movDir.y != 0){
-            //System.out.println("I'm going Up................");
             setCurrentAnimation("walkBack");
-            if(movDir.y > SPEEDTRANSLOCATION){
+            if(movDir.y > SPEEDTRANSLOC){
                 System.out.println("I'm RUNNING Up................");
             }
             else{System.out.println("I'm WALKING Up................");}
         }
         if(movementAngle== 90 && movDir.y != 0){
-            //System.out.println("I'm going Down................");
             setCurrentAnimation("walkFront");
-            if(movDir.y < -SPEEDTRANSLOCATION){
+            if(movDir.y < -SPEEDTRANSLOC){
                 System.out.println("I'm RUNNING Down................");
             }
             else{System.out.println("I'm WALKING Down................");}

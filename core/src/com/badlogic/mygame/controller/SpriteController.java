@@ -5,9 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.mygame.model.Spritesheet;
 
 import java.util.HashMap;
@@ -15,7 +12,7 @@ import java.util.HashMap;
 public class SpriteController {
     public Vector2 position;
     public Spritesheet spritesheet;
-    public Animation<TextureRegion> animation;
+    //public Animation<TextureRegion> animation;
     protected HashMap<String, Animation> animations;
     public String currentAnimation;
     protected float widthEachPlayer;
@@ -44,12 +41,6 @@ public class SpriteController {
         this.movDir = movDir;
     }
 
-    /*
-    public void setSpriteVelocity(float spriteVelocity){
-        this.spriteVelocity = spriteVelocity;
-    }
-    */
-
     public void setSpriteAnimations(String animationName, int startFrame, int lastFrame, float animationSpeed){
         this.animations.put(animationName, spritesheet.createAnimation(startFrame, lastFrame, animationSpeed));
 
@@ -65,11 +56,11 @@ public class SpriteController {
 
     public void update(float deltaTime){
         this.stateTime += deltaTime;
-        // change sprite position
 
+        // change sprite position
         this.position.add(this.movDir);
         this.movementAngle = (new Vector2(1,0)).angleDeg(this.movDir);
-        System.out.println("MOVEMENT ANGLE: " + this.movementAngle);
-        System.out.println("movDir: " + this.movDir);
+        //System.out.println("MOVEMENT ANGLE: " + this.movementAngle);
+        //System.out.println("movDir: " + this.movDir);
     }
 }
