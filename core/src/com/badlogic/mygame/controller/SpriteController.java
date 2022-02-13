@@ -39,13 +39,16 @@ public class SpriteController {
         this.movDir = new Vector2(0f,0f);
         this.spriteVelocity = spriteVelocity;
     }
+
     public void setMovDir(Vector2 movDir){
         this.movDir = movDir;
     }
 
+    /*
     public void setSpriteVelocity(float spriteVelocity){
         this.spriteVelocity = spriteVelocity;
     }
+    */
 
     public void setSpriteAnimations(String animationName, int startFrame, int lastFrame, float animationSpeed){
         this.animations.put(animationName, spritesheet.createAnimation(startFrame, lastFrame, animationSpeed));

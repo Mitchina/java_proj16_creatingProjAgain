@@ -32,13 +32,15 @@ public class Player extends SpriteController {
         setCurrentAnimation("idleFront");
         createBox2d();
     }
+
     public void setMovDir(Vector2 movDir){
         super.setMovDir(movDir);
     }
 
+    /*
     public void setSpriteVelocity(float spriteVelocity){
         super.setSpriteVelocity(spriteVelocity);
-    }
+    }*/
 
     public void setSpriteAnimations(String animationName, int startFrame, int lastFrame, float animationSpeed){
         super.setSpriteAnimations(animationName, startFrame, lastFrame, animationSpeed);

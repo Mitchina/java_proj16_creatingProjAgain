@@ -47,8 +47,8 @@ public class PlayerController {
             movDir.add(new Vector2(0f, -playerVelocity));
         }
         player.setMovDir(movDir.nor().scl(SPEED));
-        player.setSpriteVelocity(SPEED);
-        System.out.println("--------Controlling if SPEED increase when I press Shift Left");
-        System.out.println(SPEED);
+        //player.setSpriteVelocity(SPEED);
+        //System.out.println("--------Controlling if SPEED increase when I press Shift Left");
+        //System.out.println(SPEED);
     }
 }
