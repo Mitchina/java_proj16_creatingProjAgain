@@ -26,10 +26,10 @@ public class SpriteController {
     private float stateTime; // tracks elapsed time for the animation
     protected Vector2 movDir;
     protected float movementAngle;
+    protected float spriteVelocity;
 
     protected Body physicsBody; // we can access the velocity of the sprites
     //protected Vector2 physicsBodyPosition;
-    protected static float VELOCITY;
     //protected Vector2 physicsBodyVelocity;
     //protected boolean wakeSprite;
 
@@ -38,7 +38,7 @@ public class SpriteController {
     //public static boolean left;
 
     // passing al the parameters of the player
-    public SpriteController(Vector2 position, int widthEachPlayer, int heightEachPlayer, String player2SpritesRelativePath){
+    public SpriteController(Vector2 position, int widthEachPlayer, int heightEachPlayer, String player2SpritesRelativePath, float spriteVelocity){
         this.position = position;
         this.widthEachPlayer = widthEachPlayer * LevelController.UNIT_SCALE;
         this.heightEachPlayer = heightEachPlayer * LevelController.UNIT_SCALE;
@@ -46,9 +46,14 @@ public class SpriteController {
         this.animations = new HashMap<String, Animation>();
         this.stateTime =0f;
         this.movDir = new Vector2(0f,0f);
+        this.spriteVelocity = spriteVelocity;
     }
     public void setMovDir(Vector2 movDir){
         this.movDir = movDir;
+    }
+
+    public void setSpriteVelocity(float spriteVelocity){
+        this.spriteVelocity = spriteVelocity;
     }
 
     public void setSpriteAnimations(String animationName, int startFrame, int lastFrame, float animationSpeed){
@@ -71,8 +76,8 @@ public class SpriteController {
         // LATER CHANGE THIS BIT TO PLAYER'S POSITION FOLLOW THE 2D BOX
         this.position.add(this.movDir); // commented for now
         this.movementAngle = (new Vector2(1,0)).angleDeg(this.movDir); // commented for now
-        //System.out.println("MOVEMENT ANGLE: " + this.movementAngle);
-        //System.out.println("movDir: " + this.movDir);
+        System.out.println("MOVEMENT ANGLE: " + this.movementAngle);
+        System.out.println("movDir: " + this.movDir);
 
         /*physicsBody.applyLinearImpulse(VELOCITY, VELOCITY, physicsBodyPosition.x, physicsBodyPosition.y, wakeSprite);
         physicsBody.setLinearVelocity(physicsBodyVelocity.x, physicsBodyVelocity.y);*/

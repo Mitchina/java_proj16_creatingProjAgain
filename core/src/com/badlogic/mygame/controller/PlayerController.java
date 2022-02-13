@@ -9,18 +9,88 @@ import com.badlogic.mygame.model.Player;
 public class PlayerController {
     public static Player player;
     static String player2SpritesRelativePath = "player2AnimationSheet.png";
-    //private static final float VELOCITY = 1f;
+    static float playerVelocity = 0.05f;
 
     public static void initializeController(){
-        player = new Player(new Vector2(5,5), 48, 48, player2SpritesRelativePath);
+        player = new Player(new Vector2(5,5), 48, 48, player2SpritesRelativePath, playerVelocity);
     }
     public static void update(float deltaTime){
         player.update(deltaTime);
+        handleInput();
     }
 
     public static void draw(Batch spriteBatch) {
         player.draw(spriteBatch);
     }
+
+    public static void handleInput(){
+        Vector2 movDir = new Vector2(0f,0f);
+        float SPEED;
+        if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+            SPEED = 1.5f; // faster speed
+        }
+        else{
+            SPEED = 1f; // normal speed
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            movDir.add(new Vector2(-playerVelocity*SPEED, 0f));
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+            movDir.add(new Vector2(playerVelocity*SPEED, 0f));
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+            movDir.add(new Vector2(0f, playerVelocity*SPEED));
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+            //camera.position.y -=3f;
+            movDir.add(new Vector2(0f, -playerVelocity*SPEED));
+        }
+
+        /*
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            //System.out.println("Camera X Position Before" + camera.position.x); // 7
+            //camera.position.set(camera.viewportWidth/2f-7, camera.viewportHeight/2f, 0);
+            //camera.position.x -=7f;
+            movDir.add(new Vector2(-SPEED, 0f));
+            /*
+            if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+                movDir.add(new Vector2(-VELOCITY*2, 0f));
+            }*/
+        /*}
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+            //camera.position.x +=3f;
+            movDir.add(new Vector2(SPEED, 0f));
+            /*
+            if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+                movDir.add(new Vector2(VELOCITY*2, 0f));
+            }*/
+        /*}
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+            //camera.position.y +=3f;
+            movDir.add(new Vector2(0f, SPEED));
+            /*
+            if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+                movDir.add(new Vector2(0f, VELOCITY*2));
+            }*/
+        /*}
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+            //camera.position.y -=3f;
+            movDir.add(new Vector2(0f, -SPEED));
+            /*
+            if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+                movDir.add(new Vector2(0f, -VELOCITY*2));
+            }*/
+        /*}*/
+
+        player.setMovDir(movDir);
+        player.setSpriteVelocity(SPEED);
+        System.out.println("--------Controlling if SPEED increase when I press Shift Left");
+        System.out.println(SPEED);
+    }
+
+
+    /*
 
     // private can only be executed here in PlayerController
     // get the movDir input to change the velocity and position of the box2d
@@ -65,7 +135,6 @@ public class PlayerController {
             System.out.println("I'm going Down................");
             player.setCurrentAnimation("walkFront");
         }
+    }*/
 
-
-    }
 }

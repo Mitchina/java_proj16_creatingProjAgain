@@ -28,35 +28,50 @@ public class GameScreen extends ScreenAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
             Gdx.app.exit();
         }
-
+        /*
         // capture inputs - then, move camera
         Vector2 movDir = new Vector2(0f,0f);
+        float VELOCITY = 0.03f;
 
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             //System.out.println("Camera X Position Before" + camera.position.x); // 7
             //camera.position.set(camera.viewportWidth/2f-7, camera.viewportHeight/2f, 0);
             //camera.position.x -=7f;
-            movDir.add(new Vector2(-0.05f, 0f));
+            movDir.add(new Vector2(-VELOCITY, 0f));
+            if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+                movDir.add(new Vector2(-VELOCITY*2, 0f));
+            }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             //camera.position.x +=3f;
-            movDir.add(new Vector2(0.05f, 0f));
+            movDir.add(new Vector2(VELOCITY, 0f));
+            if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+                movDir.add(new Vector2(VELOCITY*2, 0f));
+            }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
             //camera.position.y +=3f;
-            movDir.add(new Vector2(0f, 0.05f));
+            movDir.add(new Vector2(0f, VELOCITY));
+            if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+                movDir.add(new Vector2(0f, VELOCITY*2));
+            }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
             //camera.position.y -=3f;
-            movDir.add(new Vector2(0f, -0.05f));
+            movDir.add(new Vector2(0f, -VELOCITY));
+            if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+                movDir.add(new Vector2(0f, -VELOCITY*2));
+            }
         }
+        */
+
         //float movementAngle = (new Vector2(1,0)).angleDeg(movDir);
 
         //PlayerController.handleInput(movDir, movementAngle);
 
         //------- trying above moving box 2d ^
 
-        PlayerController.player.setMovDir(movDir); // later change // if I comment, not walking anymore
+        //PlayerController.player.setMovDir(movDir); // later change // if I comment, not walking anymore
 
         //PlayerController.player.position.add(movDir);
         //float movementAngle = (new Vector2(1,0)).angleDeg(movDir);

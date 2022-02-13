@@ -22,8 +22,8 @@ public class Player extends SpriteController {
     public static Batch batch;
 
     // passing al the parameters of the player
-    public Player(Vector2 position, int widthEachPlayer, int heightEachPlayer, String player2SpritesRelativePath){
-        super(position, widthEachPlayer, heightEachPlayer, player2SpritesRelativePath);
+    public Player(Vector2 position, int widthEachPlayer, int heightEachPlayer, String player2SpritesRelativePath, float spriteVelocity){
+        super(position, widthEachPlayer, heightEachPlayer, player2SpritesRelativePath, spriteVelocity);
         setSpriteAnimations("idleFront",4, 6, 0.25f);
         setSpriteAnimations("idleLeft",7, 9, 0.25f);
         setSpriteAnimations("idleBack",10, 11, 0.25f);
@@ -49,6 +49,10 @@ public class Player extends SpriteController {
     }
     public void setMovDir(Vector2 movDir){
         super.setMovDir(movDir);
+    }
+
+    public void setSpriteVelocity(float spriteVelocity){
+        super.setSpriteVelocity(spriteVelocity);
     }
 
     public void setSpriteAnimations(String animationName, int startFrame, int lastFrame, float animationSpeed){
