@@ -20,7 +20,7 @@ public class LevelController {
     // draw sprites
     public static Batch spriteBatch;
     public static World world;
-    private static Array<Body> bodiesInWorld;
+    //private static Array<Body> bodiesInWorld;
     private static Box2DDebugRenderer box2DDebugRenderer;
 
     public static final float UNIT_SCALE = 1/32f;
@@ -31,6 +31,7 @@ public class LevelController {
 
         // rendering the first tileset - first scene:
         renderer = tileMapHelper.setupMap();
+        //renderer = tileMapHelper.setupMap2(); // testing second part of a small map, to work with change scenes
         // this game doesn't need gravity
         world = new World(new Vector2(0,0), true);
 
@@ -45,7 +46,8 @@ public class LevelController {
         renderer.render(tileMapHelper.belowCharLayerIndices);
         spriteBatch.begin();
         // here comes the player
-        PlayerController.player.draw(spriteBatch);
+        //PlayerController.player.draw(spriteBatch);
+        PlayerController.draw(spriteBatch);
         spriteBatch.end();
         renderer.render(tileMapHelper.decorationLayersIndices);
 

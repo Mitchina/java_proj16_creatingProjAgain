@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.mygame.controller.LevelController;
 import com.badlogic.mygame.controller.PlayerController;
 
@@ -29,22 +30,37 @@ public class GameScreen extends ScreenAdapter {
         }
 
         // capture inputs - then, move camera
+        Vector2 movDir = new Vector2(0f,0f);
+
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            camera.position.x -=3f;
-            PlayerController.player.position.x -= .05f;
+            //System.out.println("Camera X Position Before" + camera.position.x); // 7
+            //camera.position.set(camera.viewportWidth/2f-7, camera.viewportHeight/2f, 0);
+            //camera.position.x -=7f;
+            movDir.add(new Vector2(-0.05f, 0f));
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            camera.position.x +=3f;
-            PlayerController.player.position.x += .05f;
+            //camera.position.x +=3f;
+            movDir.add(new Vector2(0.05f, 0f));
         }
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            camera.position.y +=3f;
-            PlayerController.player.position.y += .05f;
+            //camera.position.y +=3f;
+            movDir.add(new Vector2(0f, 0.05f));
         }
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            camera.position.y -=3f;
-            PlayerController.player.position.y -= .05f;
+            //camera.position.y -=3f;
+            movDir.add(new Vector2(0f, -0.05f));
         }
+        //float movementAngle = (new Vector2(1,0)).angleDeg(movDir);
+
+        //PlayerController.handleInput(movDir, movementAngle);
+
+        //------- trying above moving box 2d ^
+
+        PlayerController.player.setMovDir(movDir); // later change // if I comment, not walking anymore
+
+        //PlayerController.player.position.add(movDir);
+        //float movementAngle = (new Vector2(1,0)).angleDeg(movDir);
+        //
     }
 
     private void cameraUpdate(){

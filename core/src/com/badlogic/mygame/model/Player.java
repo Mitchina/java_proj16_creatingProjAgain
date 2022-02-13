@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.mygame.controller.LevelController;
+import com.badlogic.mygame.controller.PlayerController;
 import com.badlogic.mygame.controller.SpriteController;
 
 import java.util.HashMap;
@@ -46,6 +47,10 @@ public class Player extends SpriteController {
         */
         createBox2d();
     }
+    public void setMovDir(Vector2 movDir){
+        super.setMovDir(movDir);
+    }
+
     public void setSpriteAnimations(String animationName, int startFrame, int lastFrame, float animationSpeed){
         super.setSpriteAnimations(animationName, startFrame, lastFrame, animationSpeed);
     }
@@ -60,6 +65,27 @@ public class Player extends SpriteController {
 
     public void update(float deltaTime){
         super.update(deltaTime);
+
+        if(movementAngle== 0 && movDir.x == 0 && movDir.y== 0){
+            System.out.println("I'm stand................");
+            setCurrentAnimation("idleFront");
+        }
+        if(movementAngle== 0 && movDir.x != 0){
+            System.out.println("I'm going Right................");
+            setCurrentAnimation("walkRight");
+        }
+        if(movementAngle== 180 && movDir.x != 0){
+            System.out.println("I'm going Left................");
+            setCurrentAnimation("walkLeft");
+        }
+        if(movementAngle== 270 && movDir.y != 0){
+            System.out.println("I'm going Up................");
+            setCurrentAnimation("walkBack");
+        }
+        if(movementAngle== 90 && movDir.y != 0){
+            System.out.println("I'm going Down................");
+            setCurrentAnimation("walkFront");
+        }
     }
 
     // specific for this player
@@ -68,8 +94,11 @@ public class Player extends SpriteController {
         bodyDefinition.position.set(this.position);
         //bodyDefinition.type = BodyDef.BodyType.DynamicBody;
 
-        Body playerBody = LevelController.world.createBody(bodyDefinition);
-        playerBody.setUserData(this);
+        //Body playerBody = LevelController.world.createBody(bodyDefinition);
+        //playerBody.setUserData(this);
+        // get the SpriteController parent body
+        physicsBody = LevelController.world.createBody(bodyDefinition);
+        physicsBody.setUserData(this);
 
         PolygonShape rectangleShape = new PolygonShape();
         rectangleShape.setAsBox(this.widthEachPlayer/2-1.1f, this.heightEachPlayer/2-1.3f, new Vector2(this.widthEachPlayer/2, this.heightEachPlayer/2+.05f), 0f);
@@ -77,6 +106,7 @@ public class Player extends SpriteController {
         FixtureDef fixtureDefinition = new FixtureDef();
         fixtureDefinition.shape = rectangleShape;
 
-        playerBody.createFixture(fixtureDefinition);
+        //playerBody.createFixture(fixtureDefinition);
+        physicsBody.createFixture(fixtureDefinition);
     }
 }

@@ -10,7 +10,8 @@ import com.badlogic.mygame.controller.LevelController;
 
 // our model of Level
 public class TileMapHelper extends ApplicationAdapter {
-    String tmxRelativePath = "myTileMap.tmx";
+    String firstSceneRelativePath = "myTileMap.tmx";
+    String secondSceneRelativePath = "myTileMap_part2.tmx";
     private GameScreen gameScreen;
     public TiledMap tiledMap;
 
@@ -23,7 +24,26 @@ public class TileMapHelper extends ApplicationAdapter {
     }
 
     public OrthogonalTiledMapRenderer setupMap(){
-        tiledMap = new TmxMapLoader().load(tmxRelativePath);
+        tiledMap = new TmxMapLoader().load(firstSceneRelativePath);
+
+        // Reading Map Layers
+        MapLayers mapLayers = tiledMap.getLayers();
+
+        groundLayerIndices = new int[]{
+                mapLayers.getIndex("BottomLayer")
+        };
+        belowCharLayerIndices = new int[]{
+                mapLayers.getIndex("TopLayer")
+        };
+        decorationLayersIndices = new int[]{
+                mapLayers.getIndex("EvenMoreTopLayer")
+        };
+
+        return new OrthogonalTiledMapRenderer(tiledMap, LevelController.UNIT_SCALE);
+
+    }
+    public OrthogonalTiledMapRenderer setupMap2(){
+        tiledMap = new TmxMapLoader().load(secondSceneRelativePath);
 
         // Reading Map Layers
         MapLayers mapLayers = tiledMap.getLayers();
