@@ -13,13 +13,11 @@ import com.badlogic.mygame.model.Spritesheet;
 import java.util.HashMap;
 
 public class SpriteController {
-    // position and sprite sheet
     public Vector2 position;
     public Spritesheet spritesheet;
     public Animation<TextureRegion> animation;
     protected HashMap<String, Animation> animations;
     public String currentAnimation;
-    //String player2SpritesRelativePath = "player2AnimationSheet.png";
     protected float widthEachPlayer;
     protected float heightEachPlayer;
 
@@ -28,14 +26,7 @@ public class SpriteController {
     protected float movementAngle;
     protected float spriteVelocity;
 
-    protected Body physicsBody; // we can access the velocity of the sprites
-    //protected Vector2 physicsBodyPosition;
-    //protected Vector2 physicsBodyVelocity;
-    //protected boolean wakeSprite;
-
-    // move
-    //public float speed;
-    //public static boolean left;
+    protected Body physicsBody;
 
     // passing al the parameters of the player
     public SpriteController(Vector2 position, int widthEachPlayer, int heightEachPlayer, String player2SpritesRelativePath, float spriteVelocity){
@@ -73,13 +64,9 @@ public class SpriteController {
         this.stateTime += deltaTime;
         // change sprite position
 
-        // LATER CHANGE THIS BIT TO PLAYER'S POSITION FOLLOW THE 2D BOX
-        this.position.add(this.movDir); // commented for now
-        this.movementAngle = (new Vector2(1,0)).angleDeg(this.movDir); // commented for now
+        this.position.add(this.movDir);
+        this.movementAngle = (new Vector2(1,0)).angleDeg(this.movDir);
         System.out.println("MOVEMENT ANGLE: " + this.movementAngle);
         System.out.println("movDir: " + this.movDir);
-
-        /*physicsBody.applyLinearImpulse(VELOCITY, VELOCITY, physicsBodyPosition.x, physicsBodyPosition.y, wakeSprite);
-        physicsBody.setLinearVelocity(physicsBodyVelocity.x, physicsBodyVelocity.y);*/
     }
 }

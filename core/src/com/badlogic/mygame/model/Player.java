@@ -16,9 +16,6 @@ import java.util.HashMap;
 
 public class Player extends SpriteController {
     private HashMap<String, Animation> animations;
-    public String currentAnimation;
-    // tracking elapsed time for animation
-    private float stateTime;
     public static Batch batch;
 
     // passing al the parameters of the player
@@ -33,18 +30,6 @@ public class Player extends SpriteController {
         setSpriteAnimations("walkRight",25, 29, 0.25f);
         setSpriteAnimations("walkBack",30, 34, 0.25f);
         setCurrentAnimation("idleFront");
-        /*
-        animations = new HashMap<>();
-        animations.put("idleFront", spritesheet.createAnimation(4, 6, 0.25f));
-        animations.put("idleLeft", spritesheet.createAnimation(7, 9, 0.25f));
-        animations.put("idleBack", spritesheet.createAnimation(10, 11, 0.25f));
-        animations.put("idleRight", spritesheet.createAnimation(12, 14, 0.25f));
-        animations.put("walkFront", spritesheet.createAnimation(15, 19, 0.25f));
-        animations.put("walkLeft", spritesheet.createAnimation(20, 24, 0.25f));
-        animations.put("walkRight", spritesheet.createAnimation(25, 29, 0.25f));
-        animations.put("walkBack", spritesheet.createAnimation(30, 34, 0.25f));
-        currentAnimation = "idleFront";
-        */
         createBox2d();
     }
     public void setMovDir(Vector2 movDir){
@@ -96,11 +81,7 @@ public class Player extends SpriteController {
     public void createBox2d(){
         BodyDef bodyDefinition = new BodyDef();
         bodyDefinition.position.set(this.position);
-        //bodyDefinition.type = BodyDef.BodyType.DynamicBody;
 
-        //Body playerBody = LevelController.world.createBody(bodyDefinition);
-        //playerBody.setUserData(this);
-        // get the SpriteController parent body
         physicsBody = LevelController.world.createBody(bodyDefinition);
         physicsBody.setUserData(this);
 
@@ -110,7 +91,6 @@ public class Player extends SpriteController {
         FixtureDef fixtureDefinition = new FixtureDef();
         fixtureDefinition.shape = rectangleShape;
 
-        //playerBody.createFixture(fixtureDefinition);
         physicsBody.createFixture(fixtureDefinition);
     }
 }
