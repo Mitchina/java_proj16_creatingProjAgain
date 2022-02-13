@@ -9,7 +9,7 @@ import com.badlogic.mygame.model.Player;
 public class PlayerController {
     public static Player player;
     static String player2SpritesRelativePath = "player2AnimationSheet.png";
-    static float playerVelocity = 0.05f;
+    static float playerVelocity = 0.02f;
 
     public static void initializeController(){
         player = new Player(new Vector2(5,5), 48, 48, player2SpritesRelativePath, playerVelocity);
@@ -27,10 +27,10 @@ public class PlayerController {
         Vector2 movDir = new Vector2(0f,0f);
         float SPEED;
         if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-            SPEED = 0.08f; // faster speed
+            SPEED = 0.08f; // running speed
         }
         else{
-            SPEED = 0.05f; // normal speed
+            SPEED = 0.05f; // walking speed
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
@@ -47,8 +47,5 @@ public class PlayerController {
             movDir.add(new Vector2(0f, -playerVelocity));
         }
         player.setMovDir(movDir.nor().scl(SPEED));
-        //player.setSpriteVelocity(SPEED);
-        //System.out.println("--------Controlling if SPEED increase when I press Shift Left");
-        //System.out.println(SPEED);
     }
 }

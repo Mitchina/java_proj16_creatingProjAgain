@@ -56,26 +56,43 @@ public class Player extends SpriteController {
 
     public void update(float deltaTime){
         super.update(deltaTime);
+        final double SPEEDTRANSLOCATION = 0.051; // numbers +/- as 0.03535534 and 0.05 = walking // 0.05656854 and 0.08 = running
 
         if(movementAngle== 0 && movDir.x == 0 && movDir.y== 0){
             System.out.println("I'm stand................");
             setCurrentAnimation("idleFront");
         }
         if(movementAngle== 0 && movDir.x != 0){
-            System.out.println("I'm going Right................");
+            //System.out.println("I'm going Right................");
             setCurrentAnimation("walkRight");
+            if(movDir.x > SPEEDTRANSLOCATION){
+                System.out.println("I'm RUNNING Right................");
+            }
+            else{System.out.println("I'm WALKING Right................");}
         }
         if(movementAngle== 180 && movDir.x != 0){
-            System.out.println("I'm going Left................");
+            //System.out.println("I'm going Left................");
             setCurrentAnimation("walkLeft");
+            if(movDir.x < -SPEEDTRANSLOCATION){
+                System.out.println("I'm RUNNING Left................");
+            }
+            else{System.out.println("I'm WALKING Left................");}
         }
         if(movementAngle== 270 && movDir.y != 0){
-            System.out.println("I'm going Up................");
+            //System.out.println("I'm going Up................");
             setCurrentAnimation("walkBack");
+            if(movDir.y > SPEEDTRANSLOCATION){
+                System.out.println("I'm RUNNING Up................");
+            }
+            else{System.out.println("I'm WALKING Up................");}
         }
         if(movementAngle== 90 && movDir.y != 0){
-            System.out.println("I'm going Down................");
+            //System.out.println("I'm going Down................");
             setCurrentAnimation("walkFront");
+            if(movDir.y < -SPEEDTRANSLOCATION){
+                System.out.println("I'm RUNNING Down................");
+            }
+            else{System.out.println("I'm WALKING Down................");}
         }
     }
 
