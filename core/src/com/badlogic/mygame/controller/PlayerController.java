@@ -24,6 +24,11 @@ public class PlayerController {
     }
 
     public static void handleInput(){
+        // get player body velocity
+        Vector2 velocity = player.spritePhysicsBody.getLinearVelocity();
+        // get player body position
+        Vector2 position = player.spritePhysicsBody.getPosition();
+
         Vector2 movDir = new Vector2(0f,0f);
         float SPEED;
         if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
@@ -46,6 +51,12 @@ public class PlayerController {
             //camera.position.y -=3f;
             movDir.add(new Vector2(0f, -playerVelocity));
         }
-        player.setMovDir(movDir.nor().scl(SPEED));
+        Vector2 movDirNormalizedAndScaled = movDir.nor().scl(SPEED);
+
+        player.spritePhysicsBody.applyLinearImpulse(movDirNormalizedAndScaled.x, movDirNormalizedAndScaled.y, player.position.x, player.position.y, true);
+
+
+        // sending direction input vector to player:
+        //player.setMovDir(movDir.nor().scl(SPEED));
     }
 }

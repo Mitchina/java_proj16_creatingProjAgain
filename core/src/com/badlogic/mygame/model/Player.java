@@ -27,9 +27,11 @@ public class Player extends SpriteController {
         setSpriteAnimations("walkRight",25, 29, 0.25f);
         setSpriteAnimations("walkBack",30, 34, 0.25f);
         setCurrentAnimation("idleFront");
+        //Bodies.createBox2d(false, this.position.x, this.position.y, spritePhysicsBody);
         createBox2d();
     }
 
+    // getting the vector direction from inputs
     public void setMovDir(Vector2 movDir){
         super.setMovDir(movDir);
     }
@@ -87,10 +89,11 @@ public class Player extends SpriteController {
     // specific for this player
     public void createBox2d(){
         BodyDef bodyDefinition = new BodyDef();
+        //bodyDefinition.type = BodyDef.BodyType.DynamicBody;
         bodyDefinition.position.set(this.position);
 
-        physicsBody = LevelController.world.createBody(bodyDefinition);
-        physicsBody.setUserData(this);
+        spritePhysicsBody = LevelController.world.createBody(bodyDefinition);
+        spritePhysicsBody.setUserData(this);
 
         PolygonShape rectangleShape = new PolygonShape();
         rectangleShape.setAsBox(this.widthEachPlayer/2-1.1f, this.heightEachPlayer/2-1.3f, new Vector2(this.widthEachPlayer/2, this.heightEachPlayer/2+.05f), 0f);
@@ -98,6 +101,8 @@ public class Player extends SpriteController {
         FixtureDef fixtureDefinition = new FixtureDef();
         fixtureDefinition.shape = rectangleShape;
 
-        physicsBody.createFixture(fixtureDefinition);
+        spritePhysicsBody.createFixture(fixtureDefinition);
+        //System.out.println(spritePhysicsBody.getPosition());
+        //rectangleShape.dispose();
     }
 }

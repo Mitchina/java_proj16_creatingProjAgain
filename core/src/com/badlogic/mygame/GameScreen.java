@@ -26,6 +26,10 @@ public class GameScreen extends ScreenAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
             Gdx.app.exit();
         }
+        // testing cleaning bodies
+        if(Gdx.input.isKeyPressed(Input.Keys.R)){
+            LevelController.clearLevel = true;
+        }
     }
 
     private void cameraUpdate(){
