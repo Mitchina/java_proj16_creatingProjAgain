@@ -7,14 +7,12 @@ import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.mygame.GameScreen;
 import com.badlogic.mygame.controller.LevelController;
 
 // our model of Level
 public class TileMapHelper extends ApplicationAdapter {
     String firstSceneRelativePath = "myTileMap.tmx";
     String secondSceneRelativePath = "myTileMap_part2.tmx";
-    private GameScreen gameScreen;
     public TiledMap tiledMap;
 
     public int[] groundLayerIndices; // for ex. ground and water - Bottom Layer
@@ -24,8 +22,7 @@ public class TileMapHelper extends ApplicationAdapter {
     // for the collisions, I'll have it save as <objectgroup color="..." name="Collision">
     // <object name="decoration" type="solid" x, y, width and height for each of them>
 
-    public TileMapHelper(GameScreen gameScreen){
-        this.gameScreen = gameScreen;
+    public TileMapHelper(){
     }
 
     // have access to all the layers in tiles, include the collision obj

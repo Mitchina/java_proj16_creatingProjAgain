@@ -42,6 +42,7 @@ public class SpriteController {
     }
 
     public void setMovDir(Vector2 movDir){
+
         this.movDir = movDir;
     }
 

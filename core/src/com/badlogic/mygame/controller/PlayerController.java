@@ -24,10 +24,6 @@ public class PlayerController {
     }
 
     public static void handleInput(){
-        // get player body velocity
-        Vector2 velocity = player.spritePhysicsBody.getLinearVelocity();
-        // get player body position
-        Vector2 position = player.spritePhysicsBody.getPosition();
 
         Vector2 movDir = new Vector2(0f,0f);
         float SPEED;
@@ -53,7 +49,7 @@ public class PlayerController {
         }
         Vector2 movDirNormalizedAndScaled = movDir.nor().scl(SPEED);
 
-        player.spritePhysicsBody.applyLinearImpulse(movDirNormalizedAndScaled.x, movDirNormalizedAndScaled.y, player.position.x, player.position.y, true);
+        player.updateBody(movDirNormalizedAndScaled);
 
 
         // sending direction input vector to player:
