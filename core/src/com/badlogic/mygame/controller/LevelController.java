@@ -28,6 +28,7 @@ public class LevelController {
     public static boolean clearLevel = false;
 
     public static void initializeController(){
+        System.out.println("LevelController.initializeController()");
         // call the levels
         tileMapHelper = new TileMapHelper();
 
@@ -45,6 +46,7 @@ public class LevelController {
     }
 
     public static void draw(OrthographicCamera camera){
+        System.out.println("LevelController.draw()");
         renderer.render(tileMapHelper.groundLayerIndices);
         renderer.render(tileMapHelper.belowCharLayerIndices);
         spriteBatch.begin();
@@ -57,6 +59,7 @@ public class LevelController {
     }
 
     public static void update(float deltaTime, OrthographicCamera camera){
+        System.out.println("LevelController.update()");
         world.step(1/60f, 6, 2);
         spriteBatch.setProjectionMatrix(camera.combined);
         renderer.setView(camera);
@@ -64,6 +67,7 @@ public class LevelController {
     }
 
     private static void updateBodiesInWorld(){
+        System.out.println("LevelController.updateBodiesInWorld()");
         world.getBodies(bodiesInWorld);
         for(int i=0; i<bodiesInWorld.size; i++){
             if(world.isLocked() && clearLevel){

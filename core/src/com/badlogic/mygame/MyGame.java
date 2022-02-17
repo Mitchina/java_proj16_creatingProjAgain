@@ -28,6 +28,7 @@ public class MyGame implements ApplicationListener {
 	
 	@Override
 	public void create () {
+		System.out.println("MyGame.create()");
 		this.camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		LevelController.initializeController();
 		PlayerController.initializeController();
@@ -35,19 +36,13 @@ public class MyGame implements ApplicationListener {
 
 	@Override
 	public void resize(int width, int height) {
-
-	}
-
-	private void cameraUpdate(Vector2 targetPosition){
-		camera.position.set(targetPosition,0f);
-		camera.update();
+		System.out.println("MyGame.resize()");
 	}
 
 	@Override
 	public void render() {
+		System.out.println("MyGame.render()");
 		float delta = Gdx.graphics.getDeltaTime();
-
-		System.out.println("I'm calling the update method...");
 
 		// clean screen, removing all the graphics from before
 		Gdx.gl.glClearColor(0.91f, 0.71f, 0.46f,1);
@@ -67,7 +62,12 @@ public class MyGame implements ApplicationListener {
 		LevelController.draw(this.camera);
 
 		cameraUpdate(PlayerController.player.getPosition());
+	}
 
+	private void cameraUpdate(Vector2 targetPosition){
+		System.out.println("MyGame.cameraUpdate()");
+		camera.position.set(targetPosition,0f);
+		camera.update();
 	}
 
 	@Override

@@ -23,6 +23,7 @@ public class TileMapHelper extends ApplicationAdapter {
     // <object name="decoration" type="solid" x, y, width and height for each of them>
 
     public TileMapHelper(){
+        System.out.println("TileMapHelper()");
     }
 
     // have access to all the layers in tiles, include the collision obj
@@ -55,6 +56,7 @@ public class TileMapHelper extends ApplicationAdapter {
 
     }
     public OrthogonalTiledMapRenderer setupMap2(){
+        System.out.println("TileMapHelper.setupMap2()");
         tiledMap = new TmxMapLoader().load(secondSceneRelativePath);
 
         // Reading Map Layers

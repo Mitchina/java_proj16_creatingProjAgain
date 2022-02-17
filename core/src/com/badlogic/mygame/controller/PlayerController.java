@@ -12,18 +12,22 @@ public class PlayerController {
     static float playerVelocity = 0.02f;
 
     public static void initializeController(){
+        System.out.println("PlayerController.initializeController()");
         player = new Player(new Vector2(5,5), 48, 48, player2SpritesRelativePath, playerVelocity);
     }
     public static void update(float deltaTime){
+        System.out.println("PlayerController.update()");
         player.update(deltaTime);
         handleInput();
     }
 
     public static void draw(Batch spriteBatch) {
+        System.out.println("PlayerController.draw()");
         player.draw(spriteBatch);
     }
 
     public static void handleInput(){
+        System.out.println("PlayerController.handleInput()");
 
         Vector2 movDir = new Vector2(0f,0f);
         float SPEED;
