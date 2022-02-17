@@ -12,6 +12,10 @@ public class Spritesheet {
     public Animation<TextureRegion> animation;
     public Animation<TextureRegion> flippedAnimation;
 
+    /**
+     * Below, methods called just once
+     */
+
     public Spritesheet(String pathToFile, int eachSpriteWidth, int eachSpriteHeight){
         System.out.println("Spritesheet()");
         //img = new Texture("badlogic.jpg"); /example

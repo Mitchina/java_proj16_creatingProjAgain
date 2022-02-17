@@ -44,6 +44,10 @@ public class Player implements IDrawable {
     private Body physicBody;
     //public static Batch batch;
 
+    /**
+     * Below, methods called just once
+     */
+
     // passing al the parameters of the player
     public Player(Vector2 position, int widthEachPlayer, int heightEachPlayer, String spritesRelativePath, float spriteVelocity){
         System.out.println("Player()");
@@ -69,37 +73,9 @@ public class Player implements IDrawable {
         this.physicBody = createBox2d(this.position, this.widthEachPlayer, this.heightEachPlayer);
     }
 
-
-    @Override
-    public void draw(Batch batch) {
-        System.out.println("Player.draw()");
-        TextureRegion currentFrame = (TextureRegion) this.currentAnimation.getKeyFrame(this.stateTime, true);
-        batch.draw(currentFrame, this.position.x, this.position.y, this.widthEachPlayer, this.heightEachPlayer);
-    }
-
     public void setSpriteAnimations(String animationName, int startFrame, int lastFrame, float animationSpeed) {
         System.out.println("Player.setSpriteAnimations()");
         this.animations.put(animationName, spritesheet.createAnimation(startFrame, lastFrame, animationSpeed));
-    }
-
-    public void setCurrentAnimation(String currentAnimationKey, float frameDuration) {
-        System.out.println("Player.setCurrentAnimation()");
-        this.currentAnimation = this.animations.get(currentAnimationKey);
-        this.currentAnimation.setFrameDuration(frameDuration);
-    }
-
-    public Vector2 getPosition() {
-        System.out.println("Player.getPosition()");
-        return this.physicBody.getPosition();
-    }
-
-    public void update(float deltaTime) {
-        System.out.println("Player.update()");
-        this.stateTime += deltaTime;
-        // change sprite position
-        this.position = physicBody.getPosition();
-
-        final double SPEEDTRANSLOC = 0.051; // numbers +/- as 0.03535534 and 0.05 = walking // 0.05656854 and 0.08 = running
     }
 
     // specific for this player
@@ -125,6 +101,19 @@ public class Player implements IDrawable {
         return boxBody;
     }
 
+    /**
+     * Below, methods called every frame
+     */
+
+    public void update(float deltaTime) {
+        System.out.println("Player.update()");
+        this.stateTime += deltaTime;
+        // change sprite position
+        this.position = physicBody.getPosition();
+
+        final double SPEEDTRANSLOC = 0.051; // numbers +/- as 0.03535534 and 0.05 = walking // 0.05656854 and 0.08 = running
+    }
+
     public void updateBody(Vector2 movDir) {
         System.out.println("Player.updateBody()");
         elaborateNewAnimation(movDir);
@@ -137,7 +126,7 @@ public class Player implements IDrawable {
         float movDirAngle = new Vector2(1,0).angleDeg(movDir);
 
         boolean isRunning = movDir.len() > 0.05f;
-        System.out.println(isRunning);
+        //System.out.println(isRunning);
 
         if(movDirAngle== 0 && movDir.x == 0 && movDir.y== 0){
             setCurrentAnimation(ANIMATION_TAG_IDLE_FRONT, ANIMATION_SPEED_NORMAL);
@@ -168,5 +157,23 @@ public class Player implements IDrawable {
             else
                 setCurrentAnimation(ANIMATION_TAG_WALK_FRONT, ANIMATION_SPEED_FAST);
         }
+    }
+
+    public void setCurrentAnimation(String currentAnimationKey, float frameDuration) {
+        System.out.println("Player.setCurrentAnimation()");
+        this.currentAnimation = this.animations.get(currentAnimationKey);
+        this.currentAnimation.setFrameDuration(frameDuration);
+    }
+
+    @Override
+    public void draw(Batch batch) {
+        System.out.println("Player.draw()");
+        TextureRegion currentFrame = (TextureRegion) this.currentAnimation.getKeyFrame(this.stateTime, true);
+        batch.draw(currentFrame, this.position.x, this.position.y, this.widthEachPlayer, this.heightEachPlayer);
+    }
+
+    public Vector2 getPosition() {
+        System.out.println("Player.getPosition()");
+        return this.physicBody.getPosition();
     }
 }

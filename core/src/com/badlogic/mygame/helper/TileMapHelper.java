@@ -22,10 +22,13 @@ public class TileMapHelper extends ApplicationAdapter {
     // for the collisions, I'll have it save as <objectgroup color="..." name="Collision">
     // <object name="decoration" type="solid" x, y, width and height for each of them>
 
+    /**
+     * Below, methods called just once
+     */
+
     public TileMapHelper(){
         System.out.println("TileMapHelper()");
     }
-
     // have access to all the layers in tiles, include the collision obj
     // those 2 methods are the second way to do the ones below
     public MapLayer getMapLayer(String layerName){
@@ -51,10 +54,9 @@ public class TileMapHelper extends ApplicationAdapter {
         decorationLayersIndices = new int[]{
                 mapLayers.getIndex("EvenMoreTopLayer")
         };
-
         return new OrthogonalTiledMapRenderer(tiledMap, LevelController.UNIT_SCALE);
-
     }
+
     public OrthogonalTiledMapRenderer setupMap2(){
         System.out.println("TileMapHelper.setupMap2()");
         tiledMap = new TmxMapLoader().load(secondSceneRelativePath);
@@ -71,9 +73,7 @@ public class TileMapHelper extends ApplicationAdapter {
         decorationLayersIndices = new int[]{
                 mapLayers.getIndex("EvenMoreTopLayer")
         };
-
         return new OrthogonalTiledMapRenderer(tiledMap, LevelController.UNIT_SCALE);
-
     }
 
 

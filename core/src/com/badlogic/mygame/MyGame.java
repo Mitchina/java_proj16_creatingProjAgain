@@ -19,12 +19,19 @@ public class MyGame implements ApplicationListener {
 	private MyGame(){
 	}
 
-	// singleton
+	/**
+	 * Singleton
+	 */
+
 	public static MyGame getInstance(){
 		if(instance == null)
 			instance = new MyGame();
 		return instance;
 	}
+
+	/**
+	 * Below, methods called just once
+	 */
 	
 	@Override
 	public void create () {
@@ -38,6 +45,10 @@ public class MyGame implements ApplicationListener {
 	public void resize(int width, int height) {
 		System.out.println("MyGame.resize()");
 	}
+
+	/**
+	 * Below, methods called every frame
+	 */
 
 	@Override
 	public void render() {

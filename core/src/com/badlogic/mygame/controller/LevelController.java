@@ -27,6 +27,10 @@ public class LevelController {
     public static final float UNIT_SCALE = 1f;
     public static boolean clearLevel = false;
 
+    /**
+     * Below, methods called just once
+     */
+
     public static void initializeController(){
         System.out.println("LevelController.initializeController()");
         // call the levels
@@ -45,18 +49,9 @@ public class LevelController {
         spriteBatch = renderer.getBatch();
     }
 
-    public static void draw(OrthographicCamera camera){
-        System.out.println("LevelController.draw()");
-        renderer.render(tileMapHelper.groundLayerIndices);
-        renderer.render(tileMapHelper.belowCharLayerIndices);
-        spriteBatch.begin();
-        // here comes the player
-        PlayerController.draw(spriteBatch);
-        spriteBatch.end();
-        renderer.render(tileMapHelper.decorationLayersIndices); // put here clouds
-
-        box2DDebugRenderer.render(world, camera.combined);
-    }
+    /**
+     * Below, methods called every frame
+     */
 
     public static void update(float deltaTime, OrthographicCamera camera){
         System.out.println("LevelController.update()");
@@ -88,6 +83,19 @@ public class LevelController {
                 //spritePhysicsBody.position = physicsBody.getPosition(); // set the body position as the actual player's position
             }
         }
+    }
+
+    public static void draw(OrthographicCamera camera){
+        System.out.println("LevelController.draw()");
+        renderer.render(tileMapHelper.groundLayerIndices);
+        renderer.render(tileMapHelper.belowCharLayerIndices);
+        spriteBatch.begin();
+        // here comes the player
+        PlayerController.draw(spriteBatch);
+        spriteBatch.end();
+        renderer.render(tileMapHelper.decorationLayersIndices); // put here clouds
+
+        box2DDebugRenderer.render(world, camera.combined);
     }
 
     public World getWorld(){
