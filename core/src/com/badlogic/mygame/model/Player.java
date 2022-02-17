@@ -50,7 +50,6 @@ public class Player implements IDrawable {
 
     // passing al the parameters of the player
     public Player(Vector2 position, int widthEachPlayer, int heightEachPlayer, String spritesRelativePath, float spriteVelocity){
-        System.out.println("Player()");
         this.position = position;
         this.widthEachPlayer = widthEachPlayer * LevelController.UNIT_SCALE;
         this.heightEachPlayer = heightEachPlayer * LevelController.UNIT_SCALE;
@@ -74,13 +73,11 @@ public class Player implements IDrawable {
     }
 
     public void setSpriteAnimations(String animationName, int startFrame, int lastFrame, float animationSpeed) {
-        System.out.println("Player.setSpriteAnimations()");
         this.animations.put(animationName, spritesheet.createAnimation(startFrame, lastFrame, animationSpeed));
     }
 
     // specific for this player
     public Body createBox2d(Vector2 position, float boxWidth, float boxHeight){
-        System.out.println("Player.createBox2d()");
 
         BodyDef bodyDefinition = new BodyDef();
 
@@ -106,7 +103,6 @@ public class Player implements IDrawable {
      */
 
     public void update(float deltaTime) {
-        System.out.println("Player.update()");
         this.stateTime += deltaTime;
         // change sprite position
         this.position = physicBody.getPosition();
@@ -115,13 +111,11 @@ public class Player implements IDrawable {
     }
 
     public void updateBody(Vector2 movDir) {
-        System.out.println("Player.updateBody()");
         elaborateNewAnimation(movDir);
         physicBody.setLinearVelocity(movDir.scl(1000));
     }
 
     public void elaborateNewAnimation(Vector2 movDir) {
-        System.out.println("Player.elaborateNewAnimation()");
 
         float movDirAngle = new Vector2(1,0).angleDeg(movDir);
 
@@ -160,20 +154,17 @@ public class Player implements IDrawable {
     }
 
     public void setCurrentAnimation(String currentAnimationKey, float frameDuration) {
-        System.out.println("Player.setCurrentAnimation()");
         this.currentAnimation = this.animations.get(currentAnimationKey);
         this.currentAnimation.setFrameDuration(frameDuration);
     }
 
     @Override
     public void draw(Batch batch) {
-        System.out.println("Player.draw()");
         TextureRegion currentFrame = (TextureRegion) this.currentAnimation.getKeyFrame(this.stateTime, true);
         batch.draw(currentFrame, this.position.x, this.position.y, this.widthEachPlayer, this.heightEachPlayer);
     }
 
     public Vector2 getPosition() {
-        System.out.println("Player.getPosition()");
         return this.physicBody.getPosition();
     }
 }

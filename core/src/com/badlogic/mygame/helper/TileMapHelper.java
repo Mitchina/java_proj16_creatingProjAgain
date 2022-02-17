@@ -27,7 +27,6 @@ public class TileMapHelper extends ApplicationAdapter {
      */
 
     public TileMapHelper(){
-        System.out.println("TileMapHelper()");
     }
     // have access to all the layers in tiles, include the collision obj
     // those 2 methods are the second way to do the ones below
@@ -58,7 +57,6 @@ public class TileMapHelper extends ApplicationAdapter {
     }
 
     public OrthogonalTiledMapRenderer setupMap2(){
-        System.out.println("TileMapHelper.setupMap2()");
         tiledMap = new TmxMapLoader().load(secondSceneRelativePath);
 
         // Reading Map Layers
