@@ -11,16 +11,21 @@ public class PlayerController {
     static String player2SpritesRelativePath = "player2AnimationSheet.png";
     static float playerVelocity = 0.02f;
 
+    /**
+     * Below, methods called just once
+     */
+
     public static void initializeController(){
         player = new Player(new Vector2(5,5), 48, 48, player2SpritesRelativePath, playerVelocity);
     }
+
+    /**
+     * Below, methods called every frame
+     */
+
     public static void update(float deltaTime){
         player.update(deltaTime);
         handleInput();
-    }
-
-    public static void draw(Batch spriteBatch) {
-        player.draw(spriteBatch);
     }
 
     public static void handleInput(){
@@ -46,6 +51,12 @@ public class PlayerController {
             //camera.position.y -=3f;
             movDir.add(new Vector2(0f, -playerVelocity));
         }
-        player.setMovDir(movDir.nor().scl(SPEED));
+        Vector2 movDirNormalizedAndScaled = movDir.nor().scl(SPEED);
+
+        player.updateBody(movDirNormalizedAndScaled);
+    }
+
+    public static void draw(Batch spriteBatch) {
+        player.draw(spriteBatch);
     }
 }

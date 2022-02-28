@@ -1,4 +1,4 @@
-package com.badlogic.mygame.model;
+package com.badlogic.mygame.helper;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,6 +11,10 @@ public class Spritesheet {
 
     public Animation<TextureRegion> animation;
     public Animation<TextureRegion> flippedAnimation;
+
+    /**
+     * Below, methods called just once
+     */
 
     public Spritesheet(String pathToFile, int eachSpriteWidth, int eachSpriteHeight){
         //img = new Texture("badlogic.jpg"); /example
@@ -54,11 +58,13 @@ public class Spritesheet {
         }
         //System.out.println("-------------");
         animation = new Animation<TextureRegion>(animationSpeed, animationFrames);
+
         return animation;
     }
 
     // flip the animation so it will face the other direction
     public Animation flipAnimation(Animation originalAnimation, boolean flipX, boolean flipY){
+        //System.out.println("Spritesheet.flipAnimation()");
         int frameCount = originalAnimation.getKeyFrames().length;
         TextureRegion[] flippedFrames = new TextureRegion[frameCount];
 
