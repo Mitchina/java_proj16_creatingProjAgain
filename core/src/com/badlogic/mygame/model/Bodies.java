@@ -1,5 +1,6 @@
 package com.badlogic.mygame.model;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.mygame.controller.LevelController;
+import com.badlogic.mygame.interfaces.IDrawable;
 
 // we don't need to create an obj of type bodies, it will be static
 public class Bodies {

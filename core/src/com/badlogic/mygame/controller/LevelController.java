@@ -20,7 +20,7 @@ public class LevelController {
     // draw sprites
     public static Batch spriteBatch;
     public static World world;
-    private static Array<Body> bodiesInWorld;
+    private static Array<Body> bodiesInWorld; //Every time that a body is added, add it to a list as well
     private static Box2DDebugRenderer box2DDebugRenderer;
 
     //public static final float UNIT_SCALE = 1/32f;
@@ -40,7 +40,7 @@ public class LevelController {
         //renderer = tileMapHelper.setupMap2(); // testing second part of a small map, to work with change scenes
         world = new World(new Vector2(0,0), true); // this game doesn't need gravity
 
-        bodiesInWorld = new Array<Body>();
+        bodiesInWorld = new Array<>();
 
         box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.setDrawBodies(true);
@@ -61,6 +61,7 @@ public class LevelController {
 
     private static void updateBodiesInWorld(){
         world.getBodies(bodiesInWorld);
+        /*
         for(int i=0; i<bodiesInWorld.size; i++){
             if(world.isLocked() && clearLevel){
                 //System.out.println("Deleting bodies----------");
@@ -69,9 +70,11 @@ public class LevelController {
             }
             clearLevel = false;
         }
-        for(Body physicsBody: bodiesInWorld){
-            if(physicsBody.getUserData() != null){
-                IDrawable spritePhysicsBody = (IDrawable) physicsBody.getUserData();
+        */
+        for(Body b: bodiesInWorld){
+            if(b.getUserData() != null){
+                IDrawable spritePhysicsBody = (IDrawable) b.getUserData();
+                //spritePhysicsBody.position = b.getPosition();
                 //spritePhysicsBody.getPosition();
 
                 //System.out.println(physicsBody.getUserData()); // com.badlogic.mygame.model.Player@938abdc - body of the player, for example
