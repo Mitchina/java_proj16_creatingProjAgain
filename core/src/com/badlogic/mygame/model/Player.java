@@ -8,13 +8,13 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.mygame.abstractClasses.DrawableObjects;
 import com.badlogic.mygame.controller.LevelController;
 import com.badlogic.mygame.helper.Spritesheet;
-import com.badlogic.mygame.interfaces.IDrawable;
 
 import java.util.HashMap;
 
-public class Player implements IDrawable {
+public class Player extends DrawableObjects {
 
     //######## ANIMATIONS TAGS ########
     public static final float ANIMATION_SPEED_NORMAL = 0.25f;
@@ -35,8 +35,8 @@ public class Player implements IDrawable {
     //public Animation<TextureRegion> animation;
     protected HashMap<String, Animation> animations;
     public Animation currentAnimation;
-    protected float widthEachPlayer;
-    protected float heightEachPlayer;
+    protected float widthEach;
+    protected float heightEach;
 
     private float stateTime; // tracks elapsed time for the animation
     protected Vector2 movDir;
@@ -51,8 +51,8 @@ public class Player implements IDrawable {
     // passing al the parameters of the player
     public Player(Vector2 position, int widthEachPlayer, int heightEachPlayer, String spritesRelativePath, float spriteVelocity){
         this.position = position;
-        this.widthEachPlayer = widthEachPlayer * LevelController.UNIT_SCALE;
-        this.heightEachPlayer = heightEachPlayer * LevelController.UNIT_SCALE;
+        this.widthEach = widthEachPlayer * LevelController.UNIT_SCALE;
+        this.heightEach = heightEachPlayer * LevelController.UNIT_SCALE;
         this.spritesheet = new Spritesheet(spritesRelativePath, widthEachPlayer, heightEachPlayer);
         this.animations = new HashMap<String, Animation>();
         this.stateTime =0f;
@@ -69,7 +69,7 @@ public class Player implements IDrawable {
         setSpriteAnimations(ANIMATION_TAG_WALK_BACK,30, 34, ANIMATION_SPEED_NORMAL);
         setCurrentAnimation(ANIMATION_TAG_IDLE_FRONT,ANIMATION_SPEED_NORMAL);
 
-        this.physicBody = createBox2d(this.position, this.widthEachPlayer, this.heightEachPlayer);
+        this.physicBody = createBox2d(this.position, this.widthEach, this.heightEach);
     }
 
     public void setSpriteAnimations(String animationName, int startFrame, int lastFrame, float animationSpeed) {
@@ -88,12 +88,14 @@ public class Player implements IDrawable {
         boxBody.setType(BodyDef.BodyType.DynamicBody);
 
         PolygonShape rectangleShape = new PolygonShape();
-        rectangleShape.setAsBox(boxWidth/2-1.1f, boxHeight/2-1.3f, new Vector2(boxWidth/2, boxHeight/2+.05f), 0f);
+        //rectangleShape.setAsBox(boxWidth/2-1.1f, boxHeight/2-1.3f, new Vector2(boxWidth/2, boxHeight/2+.05f), 0f);
+        rectangleShape.setAsBox(boxWidth/2 - 15f, boxHeight/2 - 20, new Vector2(boxWidth/2, boxHeight/2 - 10), 0f);
 
         FixtureDef fixtureDefinition = new FixtureDef();
         fixtureDefinition.shape = rectangleShape;
 
         boxBody.createFixture(fixtureDefinition);
+        rectangleShape.dispose();
 
         return boxBody;
     }
@@ -106,6 +108,7 @@ public class Player implements IDrawable {
         this.stateTime += deltaTime;
         // change sprite position
         this.position = physicBody.getPosition();
+        //System.out.println("Player Position: " + position);
 
         final double SPEEDTRANSLOC = 0.051; // numbers +/- as 0.03535534 and 0.05 = walking // 0.05656854 and 0.08 = running
     }
@@ -158,10 +161,9 @@ public class Player implements IDrawable {
         this.currentAnimation.setFrameDuration(frameDuration);
     }
 
-    @Override
     public void draw(Batch batch) {
         TextureRegion currentFrame = (TextureRegion) this.currentAnimation.getKeyFrame(this.stateTime, true);
-        batch.draw(currentFrame, this.position.x, this.position.y, this.widthEachPlayer, this.heightEachPlayer);
+        batch.draw(currentFrame, this.position.x, this.position.y, this.widthEach, this.heightEach);
     }
 
     public Vector2 getPosition() {

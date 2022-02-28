@@ -2,15 +2,19 @@ package com.badlogic.mygame.controller;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.mygame.abstractClasses.DrawableObjects;
 import com.badlogic.mygame.helper.TileMapHelper;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.mygame.interfaces.IDrawable;
+import com.badlogic.mygame.model.Bodies;
 
 public class LevelController {
     // display in 2d plane
@@ -36,8 +40,7 @@ public class LevelController {
         tileMapHelper = new TileMapHelper();
 
         // rendering the first tileset - first scene:
-        renderer = tileMapHelper.setupMap2();
-        //renderer = tileMapHelper.setupMap2(); // testing second part of a small map, to work with change scenes
+        renderer = tileMapHelper.setupMap("setupMap1"); //setupMap2 to render the second map
         world = new World(new Vector2(0,0), true); // this game doesn't need gravity
 
         bodiesInWorld = new Array<>();
@@ -46,6 +49,17 @@ public class LevelController {
         box2DDebugRenderer.setDrawBodies(true);
 
         spriteBatch = renderer.getBatch();
+
+        createLevelBodies();
+    }
+
+    // get the objects found in tiled
+    private static void createLevelBodies(){
+        MapObjects mapObjects = TileMapHelper.getLayerObjects(TileMapHelper.getMapObjGroupFromName("Collision"));
+
+        for(MapObject mapObj : mapObjects){
+            Bodies.createBody(mapObj);
+        }
     }
 
     /**
@@ -60,27 +74,13 @@ public class LevelController {
     }
 
     private static void updateBodiesInWorld(){
+        bodiesInWorld.clear();
         world.getBodies(bodiesInWorld);
-        /*
-        for(int i=0; i<bodiesInWorld.size; i++){
-            if(world.isLocked() && clearLevel){
-                //System.out.println("Deleting bodies----------");
-                world.destroyBody(bodiesInWorld.get(i));
-                //System.out.println("Bodies deleted");
-            }
-            clearLevel = false;
-        }
-        */
         for(Body b: bodiesInWorld){
-            if(b.getUserData() != null){
-                IDrawable spritePhysicsBody = (IDrawable) b.getUserData();
-                //spritePhysicsBody.position = b.getPosition();
-                //spritePhysicsBody.getPosition();
+            DrawableObjects spritePhysicsBody = (DrawableObjects) b.getUserData();
 
-                //System.out.println(physicsBody.getUserData()); // com.badlogic.mygame.model.Player@938abdc - body of the player, for example
-                //System.out.println(physicsBody.getUserData().toString()); // it is getting the player's body
-
-                //spritePhysicsBody.position = physicsBody.getPosition(); // set the body position as the actual player's position
+            if(spritePhysicsBody != null){
+                spritePhysicsBody.position = b.getPosition();
             }
         }
     }
@@ -88,11 +88,13 @@ public class LevelController {
     public static void draw(OrthographicCamera camera){
         renderer.render(tileMapHelper.groundLayerIndices);
         renderer.render(tileMapHelper.belowCharLayerIndices);
+        renderer.render(tileMapHelper.decorationLayersIndices); // if player position above item, change it to above player
         spriteBatch.begin();
         // here comes the player
         PlayerController.draw(spriteBatch);
         spriteBatch.end();
-        renderer.render(tileMapHelper.decorationLayersIndices); // put here clouds
+        //renderer.render(tileMapHelper.decorationLayersIndices);
+        renderer.render(tileMapHelper.aboveCharLayersIndices); // put here clouds
 
         box2DDebugRenderer.render(world, camera.combined);
     }
