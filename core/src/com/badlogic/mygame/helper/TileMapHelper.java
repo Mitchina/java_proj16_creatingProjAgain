@@ -5,6 +5,8 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.mygame.controller.LevelController;
@@ -14,6 +16,9 @@ public class TileMapHelper extends ApplicationAdapter {
     String firstSceneRelativePath = "myTileMap.tmx";
     String secondSceneRelativePath = "myTileMap_part2.tmx";
     public static TiledMap tiledMap;
+    static TiledMapTileLayer layer;
+    static MapLayers mapLayers;
+    static TiledMapTile tile;
 
     public int[] groundLayerIndices; // for ex. ground and water - Bottom Layer
     public int[] belowCharLayerIndices; // for ex. flowers - Top layer
@@ -53,7 +58,8 @@ public class TileMapHelper extends ApplicationAdapter {
         //tiledMap = new TmxMapLoader().load(firstSceneRelativePath);
 
         // Reading Map Layers
-        MapLayers mapLayers = tiledMap.getLayers();
+        //MapLayers mapLayers = tiledMap.getLayers();
+        mapLayers = tiledMap.getLayers();
 
         groundLayerIndices = new int[]{
                 mapLayers.getIndex("BottomLayer")
@@ -69,4 +75,71 @@ public class TileMapHelper extends ApplicationAdapter {
         };
         return new OrthogonalTiledMapRenderer(tiledMap, LevelController.UNIT_SCALE);
     }
+
+
+    public static void tryingThings() {
+        int columns=0;
+        int rows=0;
+        int tileW=0;
+        int tileH=0;
+        //layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
+        for (int index = 0; index < mapLayers.getCount(); index++) // 5 layers // one is collision
+        {
+            //layer = (TiledMapTileLayer) tiledMap.getLayers().get(i);
+            //System.out.println("tiledMap.toString: "+ tiledMap.getLayers().toString());
+            if(! mapLayers.get(index).getName().equalsIgnoreCase("Collision")){
+                System.out.println(mapLayers.get(index).getName());
+                System.out.println(index);
+                layer = (TiledMapTileLayer) mapLayers.get(index); // I have 4 layers, get all cells of each one
+
+                columns = layer.getWidth(); //14
+                rows = layer.getHeight(); //14
+                tileW = layer.getTileWidth();
+                tileH = layer.getTileHeight();
+
+                //System.out.println("tileW: " + tileW); //32
+                //System.out.println("tileH: " + tileH); //32
+
+
+                int r = 0;
+                int c = 0;
+                while(r<rows){
+                    System.out.println("row id: "+r);
+                    while(c<columns){
+                        System.out.println("column id: "+c);
+                        if(layer.getCell(r, c) != null){
+                            TiledMapTileLayer.Cell cell = layer.getCell(r, c);
+                            System.out.println("cell" + cell.toString()); //cellcom.badlogic.gdx.maps.tiled.TiledMapTileLayer$Cell@4ba0fe49
+                            /*
+                            cell.getTile()
+                            cell.getTile().getId();
+                            cell.getTile().getTextureRegion();
+                            */
+                            // or
+                            /*
+                            tile = cell.getTile();
+                            tileId = tile.getId();
+                            tileTextureRegion = tile.getTextureRegion();
+                            tileTextureRegionTexture = tileTextureRegion.getTexture();
+                            */
+                            //System.out.println("LandSetId draw: " + cell.getTile().getId()); //LandSetId draw: 98
+                            System.out.println(
+                                    "tile: " + cell.getTile() + // tile: com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile@167d8073
+                                    " tileId: " + cell.getTile().getId() + // tileId: 98
+                                    " tileTextureRegion: " + cell.getTile().getTextureRegion() + // tileTextureRegion: com.badlogic.gdx.graphics.g2d.TextureRegion@23aeae20
+                                    " tileTextureRegion.getTexture" + cell.getTile().getTextureRegion().getTexture() // Land.png
+                            );
+
+                        }
+                        else
+                            System.out.println("******Empty cell********");
+                        c++;
+                    }
+                    r++;
+                    c=0;
+                }
+            }
+        }
+    }
+
 }

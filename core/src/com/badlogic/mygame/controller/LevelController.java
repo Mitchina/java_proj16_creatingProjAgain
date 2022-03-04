@@ -38,19 +38,17 @@ public class LevelController {
     public static void initializeController(){
         // call the levels
         tileMapHelper = new TileMapHelper();
-
         // rendering the first tileset - first scene:
         renderer = tileMapHelper.setupMap("setupMap1"); //setupMap2 to render the second map
+
         world = new World(new Vector2(0,0), true); // this game doesn't need gravity
-
         bodiesInWorld = new Array<>();
-
         box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.setDrawBodies(true);
-
         spriteBatch = renderer.getBatch();
 
         createLevelBodies();
+        tileMapHelper.tryingThings();
     }
 
     // get the objects found in tiled
@@ -91,9 +89,9 @@ public class LevelController {
         renderer.render(tileMapHelper.decorationLayersIndices); // if player position above item, change it to above player
         spriteBatch.begin();
         // here comes the player
-        PlayerController.draw(spriteBatch);
+        PlayerController.draw(spriteBatch); // here comes the player
         spriteBatch.end();
-        //renderer.render(tileMapHelper.decorationLayersIndices);
+        //renderer.render(tileMapHelper.decorationLayersIndices); // now, I move the layer down here
         renderer.render(tileMapHelper.aboveCharLayersIndices); // put here clouds
 
         box2DDebugRenderer.render(world, camera.combined);

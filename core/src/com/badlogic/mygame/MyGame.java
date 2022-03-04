@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.mygame.controller.LevelController;
+import com.badlogic.mygame.controller.NewWorldLevelController;
 import com.badlogic.mygame.controller.PlayerController;
 
 // cameraController
@@ -36,7 +37,8 @@ public class MyGame implements ApplicationListener {
 	@Override
 	public void create () {
 		this.camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		LevelController.initializeController();
+		//LevelController.initializeController();
+		NewWorldLevelController.initializeController();
 		PlayerController.initializeController();
 	}
 
@@ -65,9 +67,11 @@ public class MyGame implements ApplicationListener {
 			LevelController.clearLevel = true;
 		}
 
-		LevelController.update(delta, this.camera);
+		//LevelController.update(delta, this.camera);
+		NewWorldLevelController.update(delta, this.camera);
 		PlayerController.update(delta);
-		LevelController.draw(this.camera);
+		//LevelController.draw(this.camera);
+		NewWorldLevelController.draw(this.camera);
 
 		cameraUpdate(PlayerController.player.getPosition());
 	}

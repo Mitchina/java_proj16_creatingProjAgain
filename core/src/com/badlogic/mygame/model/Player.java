@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.mygame.abstractClasses.DrawableObjects;
 import com.badlogic.mygame.controller.LevelController;
+import com.badlogic.mygame.controller.NewWorldLevelController;
 import com.badlogic.mygame.helper.Spritesheet;
 
 import java.util.HashMap;
@@ -83,7 +84,8 @@ public class Player extends DrawableObjects {
 
         bodyDefinition.position.set(position);
 
-        Body boxBody = LevelController.world.createBody(bodyDefinition);
+        //Body boxBody = LevelController.world.createBody(bodyDefinition);
+        Body boxBody = NewWorldLevelController.world.createBody(bodyDefinition);
         boxBody.setUserData(this);
         boxBody.setType(BodyDef.BodyType.DynamicBody);
 
