@@ -135,36 +135,16 @@ public class MyTiledMap extends ApplicationAdapter {
         tileSet = new TiledMapTileSet();
         tileSet.putTile(0, tile0); //my used tiles
         tileSet.putTile(1, tile1); //my used tiles
-        System.out.println("tileSet.size() : " + tileSet.size()); //1
+        //System.out.println("tileSet.size() : " + tileSet.size()); //2
         tileSet.setName("myUsedTiles");
 
-        //TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-        //cell.setTile(tileSet.getTile(0)); // id 0 = grass
-        //cell.setTile(tile0); // id 0 = grassTr
-
-        /*// GENERATE TILE PROBABILITY:
-        Random random = new Random();
-        int upperbound = 25; //generate random values from 0-24
-        int int_random = random.nextInt(upperbound);
-        System.out.println("upperbound : " + int_random);
-        if(int_random<=5){
-            cell.setTile(tile1); // id 1 = grassErbsTr
-        }
-        else
-            cell.setTile(tile0); // id 0 = grassTr*/
-
         if(map.getLayers().get(0).getName().equalsIgnoreCase("ground")){
-            //TiledMapTileLayer tileLayer = (TiledMapTileLayer) map.getLayers().get(0);
             for(int row=0; row<NewWorldLevelController.MAPHEIGHT; row++){
                 for (int col = 0; col < NewWorldLevelController.MAPWIDTH; col++) {
                     TiledMapTileLayer.Cell cell = getRandomCell(tileSet);
                     tileLayer.setCell(col, row, cell);
                 }
             }
-            /*for (int col = 0; col < NewWorldLevelController.MAPWIDTH; col++) {
-                tileLayer.setCell(col, 0, cell);
-            }*/
-            System.out.println("tileLayer.getHeight() : " + tileLayer.getHeight());
         }
     }
 
@@ -174,7 +154,7 @@ public class MyTiledMap extends ApplicationAdapter {
         Random random = new Random();
         int upperbound = 25; //generate random values from 0-24
         int int_random = random.nextInt(upperbound);
-        System.out.println("upperbound : " + int_random);
+        //System.out.println("upperbound : " + int_random);
         if(int_random<=1){
             cell.setTile(tileSet.getTile(1)); // id 1 = grassErbsTr
         }
@@ -182,5 +162,42 @@ public class MyTiledMap extends ApplicationAdapter {
             cell.setTile(tileSet.getTile(0)); // id 0 = grassTr
 
         return cell;
+    }
+
+    public int[] menuObj(String obj){
+        /*String obj = "";
+        String cage = "cage";
+        String rock = "grass";*/
+        int [] objData = new int[3];
+        int id = 0;
+        int objDrawXPosition = 0;
+        int objDrawYPosition = 0;
+
+        switch (obj){
+            case "cage":
+            {
+                id = CAGE_ID;
+                Random random = new Random();
+                int int_random = random.nextInt(500);
+                objDrawXPosition = int_random;
+                objDrawYPosition = int_random;
+            }
+            break;
+            case "grass":
+            {
+                id = GRASS_ID;
+                Random random = new Random();
+                int int_random = random.nextInt(500);
+                objDrawXPosition = int_random;
+                objDrawYPosition = int_random;
+            }
+            break;
+            default:
+                break;
+        }
+        objData[0] = id;
+        objData[1] = objDrawXPosition;
+        objData[2] = objDrawYPosition;
+        return objData;
     }
 }

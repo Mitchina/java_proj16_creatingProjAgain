@@ -1,5 +1,8 @@
 package com.badlogic.mygame.model;
 
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -38,6 +41,13 @@ public class Player extends DrawableObjects {
     public Animation currentAnimation;
     protected float widthEach;
     protected float heightEach;
+
+    //----
+    // to see depth of player texture
+    TextureRegion currentFrame;
+    Pixmap playerPixmap;
+    Texture playerTexture;
+    //----
 
     private float stateTime; // tracks elapsed time for the animation
     protected Vector2 movDir;
@@ -161,11 +171,53 @@ public class Player extends DrawableObjects {
     public void setCurrentAnimation(String currentAnimationKey, float frameDuration) {
         this.currentAnimation = this.animations.get(currentAnimationKey);
         this.currentAnimation.setFrameDuration(frameDuration);
+
+        this.currentFrame = (TextureRegion) this.currentAnimation.getKeyFrame(this.stateTime, true);
     }
 
     public void draw(Batch batch) {
-        TextureRegion currentFrame = (TextureRegion) this.currentAnimation.getKeyFrame(this.stateTime, true);
+        //this.currentFrame = (TextureRegion) this.currentAnimation.getKeyFrame(this.stateTime, true);
         batch.draw(currentFrame, this.position.x, this.position.y, this.widthEach, this.heightEach);
+    }
+
+    public TextureRegion getCurrentFrame(){
+        return this.currentFrame;
+    }
+
+    public Texture getPlayerTexture(){
+        this.currentFrame = getCurrentFrame();
+        this.playerPixmap = extractPixmapFromTextureRegion(currentFrame);
+        this.playerTexture = getTextureFromPixmap(playerPixmap);
+        return this.playerTexture;
+    }
+
+    public Pixmap extractPixmapFromTextureRegion(TextureRegion tR){
+        TextureData textureData = tR.getTexture().getTextureData();
+        if (!textureData.isPrepared()) {
+            textureData.prepare();
+        }
+        Pixmap pixmap = new Pixmap(
+                tR.getRegionWidth(),
+                tR.getRegionHeight(),
+                textureData.getFormat()
+        );
+        pixmap.drawPixmap(
+                textureData.consumePixmap(), // The other Pixmap
+                0, // The target x-coordinate (top left corner)
+                0, // The target y-coordinate (top left corner)
+                tR.getRegionX(), // The source x-coordinate (top left corner)
+                tR.getRegionY(), // The source y-coordinate (top left corner)
+                tR.getRegionWidth(), // The width of the area from the other Pixmap in pixels
+                tR.getRegionHeight() // The height of the area from the other Pixmap in pixels
+        );
+        return pixmap;
+    }
+
+    public Texture getTextureFromPixmap(Pixmap pixmap){
+        Texture texture = new Texture(pixmap, false);
+        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        //pixmap.dispose();
+        return texture;
     }
 
     public Vector2 getPosition() {

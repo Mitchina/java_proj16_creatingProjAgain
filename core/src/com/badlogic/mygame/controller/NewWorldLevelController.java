@@ -23,8 +23,19 @@ public class NewWorldLevelController {
     private static Box2DDebugRenderer box2DDebugRenderer;
 
     static TextureRegion grassTr;
-    static Texture grassTexture;
+    //******grass
     static Pixmap grassPixmap;
+    static Texture grassTexture;
+
+    //******cage
+    static Pixmap cagePixmap;
+    static Texture cageTexture;
+
+    //******general
+    static Pixmap myObjPixmap;
+    static Texture myObjText;
+    static int[] objData;
+
 
     public static final float UNIT_SCALE = 1f;
 
@@ -43,15 +54,17 @@ public class NewWorldLevelController {
         myTiledMap = new MyTiledMap();
         renderer = myTiledMap.setUpMap();
 
-        //grassTr = myTiledMap.getTextureRegionOfTile(myTiledMap.GRASS_ID);
-
         //25 central plant ground //tR.getRegionX() : 32 //tR.getRegionY() : 64
-        grassPixmap = myTiledMap.extractPixmapFromTextureRegion(myTiledMap.CAGE_ID); //63 cage //29 with erbs
+        /*grassPixmap = myTiledMap.extractPixmapFromTextureRegion(myTiledMap.GRASS_ID); //63 cage //29 with erbs
         grassTexture = myTiledMap.getTextureFromPixmap(grassPixmap);
 
-        //******** Create layer
-        //myTiledMap.addTextureToLayer(grassTr, renderer.getMap());
-        //*****************************
+        cagePixmap = myTiledMap.extractPixmapFromTextureRegion(myTiledMap.CAGE_ID); //63 cage //29 with erbs
+        cageTexture = myTiledMap.getTextureFromPixmap(cagePixmap);*/
+
+        objData = myTiledMap.menuObj("cage");
+
+        myObjPixmap = myTiledMap.extractPixmapFromTextureRegion(objData[0]);
+        myObjText = myTiledMap.getTextureFromPixmap(myObjPixmap);
 
         world = new World(new Vector2(0,0), true); // this game doesn't need gravity
 
@@ -73,15 +86,29 @@ public class NewWorldLevelController {
     public static void draw(OrthographicCamera camera){
         renderer.render();
         batch.begin();
+        /*int objDrawXPosition = 100;
+        int objDrawYPosition = 100;*/
 
-        if(PlayerController.player.getPosition().y>grassTexture.getDepth())
+        /*int playerDepth = PlayerController.player.getPlayerTexture().getDepth();
+        int objDepth = grassTexture.getDepth();
+        System.out.println("playerDepth: " + playerDepth);
+        System.out.println("objDepth: " + objDepth);*/
+
+        //if(PlayerController.player.getPosition().y>grassTexture.getDepth()) //68.462>0
+        //if(playerDepth>objDepth) //68.462>0
+        if(PlayerController.player.getPosition().y>objData[2])
         {
             //System.out.println("Player Y is higher than Tile Y");
             PlayerController.draw(batch);
-            batch.draw(grassTexture, 0,0,32,32);
+            batch.draw(myObjText, objData[1], objData[2],32,32);
+            //System.out.println("grassTexture.getDepth(): " + grassTexture.getDepth());
+            //System.out.println("PlayerController.player.getPosition().y: " + PlayerController.player.getPosition().y);
         }
         else{
-            batch.draw(grassTexture, 0,0,32,32);
+            //System.out.println("Tile Y is higher than Player Y");
+            //System.out.println("PlayerController.player.getPosition().y: " + PlayerController.player.getPosition().y);
+            batch.draw(myObjText, objData[1], objData[2],32,32);
+            //System.out.println("grassTexture.getDepth(): " + grassTexture.getDepth());
             PlayerController.draw(batch);
         }
         batch.end();
