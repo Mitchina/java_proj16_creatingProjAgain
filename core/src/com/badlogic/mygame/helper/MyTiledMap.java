@@ -1,26 +1,18 @@
 package com.badlogic.mygame.helper;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.mygame.controller.NewWorldLevelController;
-import com.badlogic.mygame.controller.PlayerController;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MyTiledMap extends ApplicationAdapter {
@@ -29,27 +21,14 @@ public class MyTiledMap extends ApplicationAdapter {
     public static TiledMap map;
     static TiledMapTileLayer tileLayer;
     static TiledMapTileLayer objsTileLayer;
-    //static MapLayers layers;
-    TiledMapTileSet tileSet;
-    //TiledMapTile tile;
-    int tileId;
-    //********* GRASS
-    private int GRASSID = 48;
-    private int GRASSREGIONX = 60;
-    private int GRASSREGIONY = 64;
-    //*********
 
     private Texture png;
     TextureRegion tilesTR;
     TextureRegion [] tilesInPng;
     TextureRegion[][] tilesMatrix;
-    public int[] ground; // for ex. ground and water - Bottom Layer
-    MapLayer layer;
 
     // array list of TextureRegion
     private List<TextureRegion> myTilesList = new ArrayList<>();
-    public static int[] groundLayerIndices; // for ex. ground and water - Bottom Layer
-    public static int[] decorationLayersIndices; //
 
     public OrthogonalTiledMapRenderer setUpMap(){
         map = new TiledMap();
@@ -57,20 +36,11 @@ public class MyTiledMap extends ApplicationAdapter {
         objsTileLayer = new TiledMapTileLayer(NewWorldLevelController.MAPWIDTH, NewWorldLevelController.MAPHEIGHT, NewWorldLevelController.TILEWIDTH, NewWorldLevelController.TILEHEIGHT);
 
         map.getLayers().add(tileLayer);
-        //map.getLayers().add(objsTileLayer);
         map.getLayers().get(0).setName("ground");
-        //map.getLayers().get(1).setName("objects");
 
         png = new Texture(pathToFile);
         myTilesList = createMyTilesList(png);
         OrthogonalTiledMapRenderer renderer = new OrthogonalTiledMapRenderer(map, NewWorldLevelController.UNIT_SCALE);
-        /*groundLayerIndices = new int[]{
-                renderer.getMap().getLayers().getIndex("ground")
-        };
-        System.out.println("groundLayerIndices : " + groundLayerIndices.length);
-        decorationLayersIndices = new int[]{
-                renderer.getMap().getLayers().getIndex("objects")
-        };*/
         return renderer;
     }
 
@@ -101,15 +71,6 @@ public class MyTiledMap extends ApplicationAdapter {
         return myTilesList;
     }
 
-    public Texture getTextureOfTile(int tileId){
-        int id=tileId; // 528 tiles in total
-        TextureRegion tR = myTilesList.get(id);
-        System.out.println("tR.getRegionX() : " + tR.getRegionX());
-        System.out.println("tR.getRegionY() : " + tR.getRegionY());
-
-        Texture myTexture = tR.getTexture();
-        return myTexture;
-    }
     public Texture getTextureFromPixmap(Pixmap pixmap){
         Texture texture = new Texture(pixmap, false);
         texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -168,8 +129,6 @@ public class MyTiledMap extends ApplicationAdapter {
         //cell.setTile(tileSet.getTile(0)); // id 0 = grass
         cell.setTile(tile);
 
-        //batch.draw(grassTr, grassTr.getRegionX(), grassTr.getRegionY(), grassTr.getRegionWidth(), grassTr.getRegionHeight());
-
         if(map.getLayers().get(0).getName().equalsIgnoreCase("ground")){
             //TiledMapTileLayer tileLayer = (TiledMapTileLayer) map.getLayers().get(0);
             for (int col = 0; col < NewWorldLevelController.MAPWIDTH; col++) {
@@ -177,36 +136,6 @@ public class MyTiledMap extends ApplicationAdapter {
             }
             //tileLayer.getHeight();
             System.out.println("tileLayer.getHeight() : " + tileLayer.getHeight());
-        }
-    }
-
-    /*public void createMap(TextureRegion tR){
-        //******************************************************************************
-        //TextureRegion grassTr = getTextureRegionOfTile(grassId, grassRegionX, grassRegionY);
-        //******************************************************************************
-
-        TiledMapTile tile = new StaticTiledMapTile(tR);
-        tileSet = new TiledMapTileSet();
-        tileSet.putTile(0, tile);
-        tileSet.setName("path");
-
-        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-        cell.setTile(tileSet.getTile(0));
-
-        if(map.getLayers().get(0).getName().equalsIgnoreCase("ground")){
-            tileLayer = (TiledMapTileLayer) map.getLayers().get(0);
-            for (int col = 0; col < NewWorldLevelController.MAPWIDTH; col++) {
-                tileLayer.setCell(col, 0, cell);
-            }
-        }
-    }*/
-
-    public void createMap2(TiledMapTileLayer.Cell cell, TiledMap map){
-        if(map.getLayers().get(0).getName().equalsIgnoreCase("ground")){
-            tileLayer = (TiledMapTileLayer) map.getLayers().get(0);
-            for (int col = 0; col < NewWorldLevelController.MAPWIDTH; col++) {
-                tileLayer.setCell(col, 0, cell);
-            }
         }
     }
 }
