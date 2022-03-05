@@ -43,12 +43,15 @@ public class NewWorldLevelController {
         myTiledMap = new MyTiledMap();
         renderer = myTiledMap.setUpMap();
 
-        grassTr = myTiledMap.getTextureRegionOfTile(25);
-        grassPixmap = myTiledMap.extractPixmapFromTextureRegion(25); //63 cage //29 with erbs
-        grassTexture = myTiledMap.getTextureFromPixmap(grassPixmap);
+        //grassTr = myTiledMap.getTextureRegionOfTile(myTiledMap.GRASS_ID);
 
         //25 central plant ground //tR.getRegionX() : 32 //tR.getRegionY() : 64
-        myTiledMap.addTextureToLayer(grassTr, renderer.getMap());
+        grassPixmap = myTiledMap.extractPixmapFromTextureRegion(myTiledMap.CAGE_ID); //63 cage //29 with erbs
+        grassTexture = myTiledMap.getTextureFromPixmap(grassPixmap);
+
+        //******** Create layer
+        //myTiledMap.addTextureToLayer(grassTr, renderer.getMap());
+        //*****************************
 
         world = new World(new Vector2(0,0), true); // this game doesn't need gravity
 
@@ -73,7 +76,7 @@ public class NewWorldLevelController {
 
         if(PlayerController.player.getPosition().y>grassTexture.getDepth())
         {
-            System.out.println("Player Y is higher than Tile Y");
+            //System.out.println("Player Y is higher than Tile Y");
             PlayerController.draw(batch);
             batch.draw(grassTexture, 0,0,32,32);
         }

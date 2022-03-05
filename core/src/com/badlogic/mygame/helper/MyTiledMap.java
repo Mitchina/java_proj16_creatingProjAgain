@@ -8,38 +8,47 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.mygame.controller.NewWorldLevelController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MyTiledMap extends ApplicationAdapter {
     private String pathToFile = "Land.png";
 
     public static TiledMap map;
     static TiledMapTileLayer tileLayer;
-    static TiledMapTileLayer objsTileLayer;
-
     private Texture png;
     TextureRegion tilesTR;
     TextureRegion [] tilesInPng;
     TextureRegion[][] tilesMatrix;
+    TiledMapTileSet tileSet;
 
     // array list of TextureRegion
     private List<TextureRegion> myTilesList = new ArrayList<>();
+    // ******** Textures ids:
+    public static final int GRASS_ID = 25;
+    public static final int CAGE_ID = 63;
+    public static final int GRASS_ERBS_ID = 29;
 
     public OrthogonalTiledMapRenderer setUpMap(){
         map = new TiledMap();
         tileLayer = new TiledMapTileLayer(NewWorldLevelController.MAPWIDTH, NewWorldLevelController.MAPHEIGHT, NewWorldLevelController.TILEWIDTH, NewWorldLevelController.TILEHEIGHT);
-        objsTileLayer = new TiledMapTileLayer(NewWorldLevelController.MAPWIDTH, NewWorldLevelController.MAPHEIGHT, NewWorldLevelController.TILEWIDTH, NewWorldLevelController.TILEHEIGHT);
 
         map.getLayers().add(tileLayer);
         map.getLayers().get(0).setName("ground");
 
         png = new Texture(pathToFile);
         myTilesList = createMyTilesList(png);
+
+        //******** Create layer
+        addTextureToLayer(map);
+        //*****************************
+
         OrthogonalTiledMapRenderer renderer = new OrthogonalTiledMapRenderer(map, NewWorldLevelController.UNIT_SCALE);
         return renderer;
     }
@@ -113,29 +122,65 @@ public class MyTiledMap extends ApplicationAdapter {
         return pixmap;
     }
 
-    public void addTextureToLayer(TextureRegion tR, TiledMap map){
+    //public void addTextureToLayer(TextureRegion tR, TiledMap map){
+    public void addTextureToLayer(TiledMap map){
         //******************************************************************************
-        //TextureRegion grassTr = getTextureRegionOfTile(grassId, grassRegionX, grassRegionY);
+        TextureRegion grassTr = getTextureRegionOfTile(GRASS_ID);
+        TextureRegion grassErbsTr = getTextureRegionOfTile(GRASS_ERBS_ID);
         //******************************************************************************
 
-        TiledMapTile tile = new StaticTiledMapTile(tR);
+        TiledMapTile tile0 = new StaticTiledMapTile(grassTr);
+        TiledMapTile tile1 = new StaticTiledMapTile(grassErbsTr);
 
-        /*tileSet = new TiledMapTileSet();
-        tileSet.putTile(0, tile); //my used tiles
+        tileSet = new TiledMapTileSet();
+        tileSet.putTile(0, tile0); //my used tiles
+        tileSet.putTile(1, tile1); //my used tiles
         System.out.println("tileSet.size() : " + tileSet.size()); //1
-        tileSet.setName("myUsedTiles");*/
+        tileSet.setName("myUsedTiles");
 
-        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+        //TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
         //cell.setTile(tileSet.getTile(0)); // id 0 = grass
-        cell.setTile(tile);
+        //cell.setTile(tile0); // id 0 = grassTr
+
+        /*// GENERATE TILE PROBABILITY:
+        Random random = new Random();
+        int upperbound = 25; //generate random values from 0-24
+        int int_random = random.nextInt(upperbound);
+        System.out.println("upperbound : " + int_random);
+        if(int_random<=5){
+            cell.setTile(tile1); // id 1 = grassErbsTr
+        }
+        else
+            cell.setTile(tile0); // id 0 = grassTr*/
 
         if(map.getLayers().get(0).getName().equalsIgnoreCase("ground")){
             //TiledMapTileLayer tileLayer = (TiledMapTileLayer) map.getLayers().get(0);
-            for (int col = 0; col < NewWorldLevelController.MAPWIDTH; col++) {
-                tileLayer.setCell(col, 0, cell);
+            for(int row=0; row<NewWorldLevelController.MAPHEIGHT; row++){
+                for (int col = 0; col < NewWorldLevelController.MAPWIDTH; col++) {
+                    TiledMapTileLayer.Cell cell = getRandomCell(tileSet);
+                    tileLayer.setCell(col, row, cell);
+                }
             }
-            //tileLayer.getHeight();
+            /*for (int col = 0; col < NewWorldLevelController.MAPWIDTH; col++) {
+                tileLayer.setCell(col, 0, cell);
+            }*/
             System.out.println("tileLayer.getHeight() : " + tileLayer.getHeight());
         }
+    }
+
+    public TiledMapTileLayer.Cell getRandomCell(TiledMapTileSet tileSet){
+        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+        // GENERATE TILE PROBABILITY:
+        Random random = new Random();
+        int upperbound = 25; //generate random values from 0-24
+        int int_random = random.nextInt(upperbound);
+        System.out.println("upperbound : " + int_random);
+        if(int_random<=1){
+            cell.setTile(tileSet.getTile(1)); // id 1 = grassErbsTr
+        }
+        else
+            cell.setTile(tileSet.getTile(0)); // id 0 = grassTr
+
+        return cell;
     }
 }
