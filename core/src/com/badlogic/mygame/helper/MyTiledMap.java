@@ -191,6 +191,27 @@ public class MyTiledMap extends ApplicationAdapter {
                 objDrawXPosition = int_random;
                 objDrawYPosition = int_random;
             }
+            break; //263
+            case "rock":
+            {
+                id = 263;
+                Random random = new Random();
+                int int_random = random.nextInt(500);
+                objDrawXPosition = int_random;
+                objDrawYPosition = int_random;
+            }
+            break;
+            case "randomObj":
+            {
+                Random random = new Random();
+                int id_random = random.nextInt(528); // total of tiles: 528
+                id = id_random;
+
+                int int_randomX = random.nextInt(500);
+                objDrawXPosition = int_randomX;
+                int int_randomY = random.nextInt(500);
+                objDrawYPosition = int_randomY;
+            }
             break;
             default:
                 break;
