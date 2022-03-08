@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.mygame.helper.MyTiledMap;
+import com.badlogic.mygame.helper.TextureForTileObjsHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,9 @@ public class NewWorldLevelController {
     //******general
     static Pixmap myObjPixmap;
     static Texture myObjText;
+
+    static List<TextureRegion> tilesInPngFileMap;
+
     static int[] objData1;
     static int[] objData2;
 
@@ -60,6 +64,9 @@ public class NewWorldLevelController {
         myTiledMap = new MyTiledMap();
         renderer = myTiledMap.setUpMap();
 
+        // getting list of tiles in the Png tiled map file
+        tilesInPngFileMap = myTiledMap.getTileslist();
+
         //25 central plant ground //tR.getRegionX() : 32 //tR.getRegionY() : 64
         /*grassPixmap = myTiledMap.extractPixmapFromTextureRegion(myTiledMap.GRASS_ID); //63 cage //29 with erbs
         grassTexture = myTiledMap.getTextureFromPixmap(grassPixmap);
@@ -75,10 +82,10 @@ public class NewWorldLevelController {
         objDataList.add(objData2);
 
         for(int [] objData : objDataList){
-            myObjPixmap = myTiledMap.extractPixmapFromTextureRegion(objData[0]);
+            myObjPixmap = TextureForTileObjsHelper.extractPixmapFromTextureRegion(objData[0], tilesInPngFileMap);
             /*System.out.println("objData[0] : " + objData[0]);
             System.out.println("objData.toString() : " + objData.toString());*/
-            myObjText = myTiledMap.getTextureFromPixmap(myObjPixmap);
+            myObjText = TextureForTileObjsHelper.getTextureFromPixmap(myObjPixmap);
         }
 
         /*myObjPixmap = myTiledMap.extractPixmapFromTextureRegion(objData1[0]);
@@ -133,25 +140,6 @@ public class NewWorldLevelController {
             //System.out.println("grassTexture.getDepth(): " + grassTexture.getDepth());
             PlayerController.draw(batch);
         }
-
-        /*for(int [] objData : objDataList){
-            if(PlayerController.player.getPosition().y>objData[2])
-            {
-                //System.out.println("Player Y is higher than Tile Y");
-                PlayerController.draw(batch);
-                batch.draw(myObjText, objData[1], objData[2],32,32);
-                //System.out.println("grassTexture.getDepth(): " + grassTexture.getDepth());
-                //System.out.println("PlayerController.player.getPosition().y: " + PlayerController.player.getPosition().y);
-            }
-            else{
-                //System.out.println("Tile Y is higher than Player Y");
-                //System.out.println("PlayerController.player.getPosition().y: " + PlayerController.player.getPosition().y);
-                batch.draw(myObjText, objData[1], objData[2],32,32);
-                //System.out.println("grassTexture.getDepth(): " + grassTexture.getDepth());
-                PlayerController.draw(batch);
-            }
-
-        }*/
 
         batch.end();
 

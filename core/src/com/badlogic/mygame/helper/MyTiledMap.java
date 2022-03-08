@@ -1,9 +1,7 @@
 package com.badlogic.mygame.helper;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
@@ -43,7 +41,7 @@ public class MyTiledMap extends ApplicationAdapter {
         map.getLayers().get(0).setName("ground");
 
         png = new Texture(pathToFile);
-        myTilesList = createMyTilesList(png);
+        myTilesList = createMyTilesList(png); //called in NewWorldLevelController
 
         //******** Create layer
         addTextureToLayer(map);
@@ -80,22 +78,26 @@ public class MyTiledMap extends ApplicationAdapter {
         return myTilesList;
     }
 
-    public Texture getTextureFromPixmap(Pixmap pixmap){
+    public List<TextureRegion> getTileslist(){
+        return myTilesList;
+    }
+
+    /*public Texture getTextureFromPixmap(Pixmap pixmap){
         Texture texture = new Texture(pixmap, false);
         texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         //pixmap.dispose();
         return texture;
-    }
+    }*/
 
-    public TextureRegion getTextureRegionOfTile(int tileId){
+    /*public TextureRegion getTextureRegionOfTile(int tileId){
         int id=tileId; // 528 tiles in total
         TextureRegion tR = myTilesList.get(id);
         System.out.println("tR.getRegionX() : " + tR.getRegionX());
         System.out.println("tR.getRegionY() : " + tR.getRegionY());
         return tR;
-    }
+    }*/
 
-    public Pixmap extractPixmapFromTextureRegion(int tileId) {
+    /*public Pixmap extractPixmapFromTextureRegion(int tileId) {
         int id=tileId; // 528 tiles in total
         TextureRegion tR = myTilesList.get(id);
         System.out.println("1.tR.getRegionX() : " + tR.getRegionX());
@@ -120,13 +122,13 @@ public class MyTiledMap extends ApplicationAdapter {
                 tR.getRegionHeight() // The height of the area from the other Pixmap in pixels
         );
         return pixmap;
-    }
+    }*/
 
     //public void addTextureToLayer(TextureRegion tR, TiledMap map){
     public void addTextureToLayer(TiledMap map){
         //******************************************************************************
-        TextureRegion grassTr = getTextureRegionOfTile(GRASS_ID);
-        TextureRegion grassErbsTr = getTextureRegionOfTile(GRASS_ERBS_ID);
+        TextureRegion grassTr = TextureForTileObjsHelper.getTextureRegionOfTile(GRASS_ID, myTilesList);
+        TextureRegion grassErbsTr = TextureForTileObjsHelper.getTextureRegionOfTile(GRASS_ERBS_ID, myTilesList);
         //******************************************************************************
 
         TiledMapTile tile0 = new StaticTiledMapTile(grassTr);
