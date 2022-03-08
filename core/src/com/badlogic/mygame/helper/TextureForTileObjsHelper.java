@@ -27,8 +27,8 @@ public class TextureForTileObjsHelper {
     public static Pixmap extractPixmapFromTextureRegion(int tileId, List<TextureRegion> myTilesList) {
         int id=tileId; // 528 tiles in total
         TextureRegion tR = myTilesList.get(id);
-        System.out.println("1.tR.getRegionX() : " + tR.getRegionX());
-        System.out.println("1.tR.getRegionY() : " + tR.getRegionY());
+        //System.out.println("1.tR.getRegionX() : " + tR.getRegionX());
+        //System.out.println("1.tR.getRegionY() : " + tR.getRegionY());
 
         TextureData textureData = tR.getTexture().getTextureData();
         if (!textureData.isPrepared()) {

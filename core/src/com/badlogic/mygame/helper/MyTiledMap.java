@@ -1,6 +1,7 @@
 package com.badlogic.mygame.helper;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.mygame.controller.NewWorldLevelController;
+import com.badlogic.mygame.model.DecorationObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +32,15 @@ public class MyTiledMap extends ApplicationAdapter {
     private List<TextureRegion> myTilesList = new ArrayList<>();
     // ******** Textures ids:
     public static final int GRASS_ID = 25;
-    public static final int CAGE_ID = 63;
     public static final int GRASS_ERBS_ID = 29;
+    public static final int CAGE_ID = 63;
+    public static final int ROCK_ID = 263;
+
+
+    //******general
+    static Pixmap objPixmap;
+    static Texture objTexture;
+    static List<TextureRegion> tilesInPngFileMap;
 
     public OrthogonalTiledMapRenderer setUpMap(){
         map = new TiledMap();
@@ -82,49 +91,8 @@ public class MyTiledMap extends ApplicationAdapter {
         return myTilesList;
     }
 
-    /*public Texture getTextureFromPixmap(Pixmap pixmap){
-        Texture texture = new Texture(pixmap, false);
-        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        //pixmap.dispose();
-        return texture;
-    }*/
-
-    /*public TextureRegion getTextureRegionOfTile(int tileId){
-        int id=tileId; // 528 tiles in total
-        TextureRegion tR = myTilesList.get(id);
-        System.out.println("tR.getRegionX() : " + tR.getRegionX());
-        System.out.println("tR.getRegionY() : " + tR.getRegionY());
-        return tR;
-    }*/
-
-    /*public Pixmap extractPixmapFromTextureRegion(int tileId) {
-        int id=tileId; // 528 tiles in total
-        TextureRegion tR = myTilesList.get(id);
-        System.out.println("1.tR.getRegionX() : " + tR.getRegionX());
-        System.out.println("1.tR.getRegionY() : " + tR.getRegionY());
-
-        TextureData textureData = tR.getTexture().getTextureData();
-        if (!textureData.isPrepared()) {
-            textureData.prepare();
-        }
-        Pixmap pixmap = new Pixmap(
-                tR.getRegionWidth(),
-                tR.getRegionHeight(),
-                textureData.getFormat()
-        );
-        pixmap.drawPixmap(
-                textureData.consumePixmap(), // The other Pixmap
-                0, // The target x-coordinate (top left corner)
-                0, // The target y-coordinate (top left corner)
-                tR.getRegionX(), // The source x-coordinate (top left corner)
-                tR.getRegionY(), // The source y-coordinate (top left corner)
-                tR.getRegionWidth(), // The width of the area from the other Pixmap in pixels
-                tR.getRegionHeight() // The height of the area from the other Pixmap in pixels
-        );
-        return pixmap;
-    }*/
-
     //public void addTextureToLayer(TextureRegion tR, TiledMap map){
+    // ground tile
     public void addTextureToLayer(TiledMap map){
         //******************************************************************************
         TextureRegion grassTr = TextureForTileObjsHelper.getTextureRegionOfTile(GRASS_ID, myTilesList);
@@ -178,11 +146,11 @@ public class MyTiledMap extends ApplicationAdapter {
         switch (obj){
             case "cage":
             {
-                id = CAGE_ID;
+                id = CAGE_ID; //[0]
                 Random random = new Random();
-                int int_random = random.nextInt(500);
-                objDrawXPosition = int_random;
-                objDrawYPosition = int_random;
+                int int_random = random.nextInt(250);
+                objDrawXPosition = int_random; //[1]
+                objDrawYPosition = int_random; //[2]
             }
             break;
             case "grass":
@@ -196,7 +164,7 @@ public class MyTiledMap extends ApplicationAdapter {
             break; //263
             case "rock":
             {
-                id = 263;
+                id = ROCK_ID;
                 Random random = new Random();
                 int int_random = random.nextInt(500);
                 objDrawXPosition = int_random;

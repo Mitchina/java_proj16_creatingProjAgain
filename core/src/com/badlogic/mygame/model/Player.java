@@ -15,10 +15,11 @@ import com.badlogic.mygame.abstractClasses.DrawableObjects;
 import com.badlogic.mygame.controller.LevelController;
 import com.badlogic.mygame.controller.NewWorldLevelController;
 import com.badlogic.mygame.helper.Spritesheet;
+import com.badlogic.mygame.interfaces.IDrawable;
 
 import java.util.HashMap;
 
-public class Player extends DrawableObjects {
+public class Player extends DrawableObjects implements IDrawable {
 
     //######## ANIMATIONS TAGS ########
     public static final float ANIMATION_SPEED_NORMAL = 0.25f;
@@ -34,6 +35,7 @@ public class Player extends DrawableObjects {
     public static final String ANIMATION_TAG_WALK_BACK = "walkBack";
     //#################################
 
+    private String name = null;
     private Vector2 position;
     public Spritesheet spritesheet;
     //public Animation<TextureRegion> animation;
@@ -67,6 +69,9 @@ public class Player extends DrawableObjects {
         this.spritesheet = new Spritesheet(spritesRelativePath, widthEachPlayer, heightEachPlayer);
         this.animations = new HashMap<String, Animation>();
         this.stateTime =0f;
+
+        //player name example:
+        this.name = "player1";
 
         this.spriteVelocity = spriteVelocity;
 
@@ -110,6 +115,14 @@ public class Player extends DrawableObjects {
         rectangleShape.dispose();
 
         return boxBody;
+    }
+
+    public String getName(){
+        return this.name;
+    }
+
+    public float getDepth(){
+        return position.y;
     }
 
     /**
@@ -178,6 +191,7 @@ public class Player extends DrawableObjects {
     public void draw(Batch batch) {
         //this.currentFrame = (TextureRegion) this.currentAnimation.getKeyFrame(this.stateTime, true);
         batch.draw(currentFrame, this.position.x, this.position.y, this.widthEach, this.heightEach);
+        getPlayerTexture();
     }
 
     public TextureRegion getCurrentFrame(){

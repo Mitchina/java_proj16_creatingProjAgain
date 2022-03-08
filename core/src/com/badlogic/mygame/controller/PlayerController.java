@@ -19,6 +19,10 @@ public class PlayerController {
         player = new Player(new Vector2(5,5), 48, 48, player2SpritesRelativePath, playerVelocity);
     }
 
+    public static Player getInitializedPlayer(){
+        return player;
+    }
+
     /**
      * Below, methods called every frame
      */

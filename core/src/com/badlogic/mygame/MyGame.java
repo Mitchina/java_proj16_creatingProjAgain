@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.mygame.controller.LevelController;
 import com.badlogic.mygame.controller.NewWorldLevelController;
 import com.badlogic.mygame.controller.PlayerController;
+import com.badlogic.mygame.model.Player;
 
 // cameraController
 public class MyGame implements ApplicationListener {
@@ -40,6 +41,8 @@ public class MyGame implements ApplicationListener {
 		//LevelController.initializeController();
 		NewWorldLevelController.initializeController();
 		PlayerController.initializeController();
+		Player initPlayer = PlayerController.getInitializedPlayer();
+		NewWorldLevelController.getPlayer(initPlayer);
 	}
 
 	@Override

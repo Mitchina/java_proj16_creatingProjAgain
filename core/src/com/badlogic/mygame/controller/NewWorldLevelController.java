@@ -10,7 +10,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.mygame.helper.MyTiledMap;
-import com.badlogic.mygame.helper.TextureForTileObjsHelper;
+import com.badlogic.mygame.interfaces.IDrawable;
+import com.badlogic.mygame.model.DecorationObject;
+import com.badlogic.mygame.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,7 @@ public class NewWorldLevelController {
 
     //******general
     static Pixmap myObjPixmap;
-    static Texture myObjText;
+    static Texture myObjTexture;
 
     static List<TextureRegion> tilesInPngFileMap;
 
@@ -45,6 +47,12 @@ public class NewWorldLevelController {
     static int[] objData2;
 
     static List<int[]> objDataList;
+
+    static List<DecorationObject> tileObjsWithTexture;
+
+    static List<IDrawable> drawableObjs;
+
+    static Player playerInWorld;
 
 
     public static final float UNIT_SCALE = 1f;
@@ -75,27 +83,43 @@ public class NewWorldLevelController {
         cageTexture = myTiledMap.getTextureFromPixmap(cagePixmap);*/
 
         objDataList = new ArrayList<>();
+        // getting the tile texture caracteristics for the texture
         objData1 = myTiledMap.menuObj("cage");
         objData2 = myTiledMap.menuObj("rock");
 
         objDataList.add(objData1);
         objDataList.add(objData2);
 
+        tileObjsWithTexture = new ArrayList<>();
+
         for(int [] objData : objDataList){
-            myObjPixmap = TextureForTileObjsHelper.extractPixmapFromTextureRegion(objData[0], tilesInPngFileMap);
-            /*System.out.println("objData[0] : " + objData[0]);
-            System.out.println("objData.toString() : " + objData.toString());*/
-            myObjText = TextureForTileObjsHelper.getTextureFromPixmap(myObjPixmap);
+
+            DecorationObject obj = new DecorationObject(objData[0], objData[1], objData[2]);
+            obj.createTexture(tilesInPngFileMap);
+            tileObjsWithTexture.add(obj);
         }
 
-        /*myObjPixmap = myTiledMap.extractPixmapFromTextureRegion(objData1[0]);
-        myObjText = myTiledMap.getTextureFromPixmap(myObjPixmap);*/
+        // all objs + player in this list
+        drawableObjs = new ArrayList<>();
 
         world = new World(new Vector2(0,0), true); // this game doesn't need gravity
 
         box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.setDrawBodies(true);
         batch = renderer.getBatch();
+    }
+
+    // get the instance of the player:
+    public static void getPlayer(Player initializedPlayer){
+        playerInWorld = initializedPlayer;
+    }
+
+    public static void addDrawableListForDepths()
+    {
+        for(IDrawable obj : tileObjsWithTexture){
+            drawableObjs.add(obj);
+        }
+        drawableObjs.add(playerInWorld);
     }
 
     /**
@@ -106,37 +130,35 @@ public class NewWorldLevelController {
         world.step(1/60f, 6, 2);
         batch.setProjectionMatrix(camera.combined);
         renderer.setView(camera);
+        // updating list of depth obj positions
+        // loop through all IDrawable obj and save order of depth position
+        addDrawableListForDepths();
+
+        /*for(IDrawable drawable : drawableObjs){
+            System.out.println(drawable.getName());
+            System.out.println(drawable.getDepth());
+        }*/
+
     }
 
     public static void draw(OrthographicCamera camera){
         renderer.render();
         batch.begin();
-        /*int objDrawXPosition = 100;
-        int objDrawYPosition = 100;*/
 
-        /*int playerDepth = PlayerController.player.getPlayerTexture().getDepth();
-        int objDepth = grassTexture.getDepth();
-        System.out.println("playerDepth: " + playerDepth);
-        System.out.println("objDepth: " + objDepth);*/
-
-        //if(PlayerController.player.getPosition().y>grassTexture.getDepth()) //68.462>0
-        //if(playerDepth>objDepth) //68.462>0
-        for(int [] objData : objDataList){
-            System.out.println("Y Position of objs: " + objData[2]); //Y Position of objs: 95 //Y Position of objs: 409
-        }
-
-        if(PlayerController.player.getPosition().y>objData1[2])
+        if(PlayerController.player.getPosition().y>tileObjsWithTexture.get(0).getObjDrawYPosition())
         {
             //System.out.println("Player Y is higher than Tile Y");
+            //PlayerController.draw(batch);
             PlayerController.draw(batch);
-            batch.draw(myObjText, objData1[1], objData1[2],32,32);
+            batch.draw(tileObjsWithTexture.get(0).getObjTexture(), tileObjsWithTexture.get(0).getObjDrawXPosition(), tileObjsWithTexture.get(0).getObjDrawYPosition(),32,32);
             //System.out.println("grassTexture.getDepth(): " + grassTexture.getDepth());
             //System.out.println("PlayerController.player.getPosition().y: " + PlayerController.player.getPosition().y);
         }
         else{
             //System.out.println("Tile Y is higher than Player Y");
             //System.out.println("PlayerController.player.getPosition().y: " + PlayerController.player.getPosition().y);
-            batch.draw(myObjText, objData1[1], objData1[2],32,32);
+            //batch.draw(myObjTexture, objData1[1], objData1[2],32,32);
+            batch.draw(tileObjsWithTexture.get(0).getObjTexture(), tileObjsWithTexture.get(0).getObjDrawXPosition(), tileObjsWithTexture.get(0).getObjDrawYPosition(),32,32);
             //System.out.println("grassTexture.getDepth(): " + grassTexture.getDepth());
             PlayerController.draw(batch);
         }
