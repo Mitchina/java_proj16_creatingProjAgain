@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.mygame.abstractClasses.DrawableObjects;
 import com.badlogic.mygame.controller.NewWorldLevelController;
 import com.badlogic.mygame.helper.MyTiledMap;
 import com.badlogic.mygame.helper.TextureForTileObjsHelper;
@@ -11,7 +12,7 @@ import com.badlogic.mygame.interfaces.IDrawable;
 
 import java.util.List;
 
-public class DecorationObject implements IDrawable {
+public class DecorationObject extends ObjectsInWorld implements IDrawable {
     private int id = 0;
     private int objDrawXPosition = 0;
     private int objDrawYPosition = 0;
@@ -67,13 +68,17 @@ public class DecorationObject implements IDrawable {
         return this.objDrawYPosition;
     }
 
-    /*public int compareTo(Player p) {
-        // control every frame the position of the objs with the player position:
-        // if y player > obj = draw player first.
-    }*/
-
-    @Override
+    //@Override
     public void draw(Batch batch) {
         batch.draw(objTexture, objDrawXPosition, objDrawYPosition,width,height);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "{" +
+                "name='" + name + '\'' +
+                ", objDrawYPosition=" + objDrawYPosition +
+                '}';
     }
 }

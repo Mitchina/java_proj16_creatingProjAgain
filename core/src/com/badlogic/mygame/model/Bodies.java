@@ -10,6 +10,9 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.mygame.abstractClasses.DrawableObjects;
 import com.badlogic.mygame.controller.LevelController;
+import com.badlogic.mygame.interfaces.IDrawable;
+
+import java.util.List;
 
 // we don't need to create an obj of type bodies, it will be static
 public class Bodies extends DrawableObjects {
@@ -89,5 +92,10 @@ public class Bodies extends DrawableObjects {
         boxBody.createFixture(fixtureDefinition);
         rectangleShape.dispose();
         return boxBody;
+    }
+
+    @Override
+    public int compareTo(List<IDrawable> o) {
+        return 0;
     }
 }

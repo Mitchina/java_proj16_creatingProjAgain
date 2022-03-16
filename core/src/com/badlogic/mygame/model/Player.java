@@ -18,8 +18,9 @@ import com.badlogic.mygame.helper.Spritesheet;
 import com.badlogic.mygame.interfaces.IDrawable;
 
 import java.util.HashMap;
+import java.util.List;
 
-public class Player extends DrawableObjects implements IDrawable {
+public class Player extends ObjectsInWorld implements IDrawable {
 
     //######## ANIMATIONS TAGS ########
     public static final float ANIMATION_SPEED_NORMAL = 0.25f;
@@ -236,5 +237,14 @@ public class Player extends DrawableObjects implements IDrawable {
 
     public Vector2 getPosition() {
         return this.physicBody.getPosition();
+    }
+
+    @Override
+    public String toString()
+    {
+        return "{" +
+                "name='" + name + '\'' +
+                ", position=" + position +
+                '}';
     }
 }
